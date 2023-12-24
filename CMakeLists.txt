@@ -13,6 +13,7 @@ set(SOURCES
     src/graph/bipartite_graph.cpp
     src/algorithms/brute_force.cpp
     src/utils/utility.cpp
+    src/utils/argument.cpp
 )
 
 # Include directories
@@ -20,3 +21,14 @@ include_directories(include/)
 
 # Add executable
 add_executable(mincrossing ${SOURCES})
+
+# Dependencies
+include(FetchContent)
+
+# fetch latest argparse
+FetchContent_Declare(
+    argparse
+    GIT_REPOSITORY https://github.com/p-ranav/argparse.git
+)
+FetchContent_MakeAvailable(argparse)
+target_link_libraries(mincrossing argparse)
