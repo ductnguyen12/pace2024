@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/mincrossing.dir/src/main.cpp.o CMakeFiles/mincrossing.dir/src/graph/bipartite_graph.cpp.o CMakeFiles/mincrossing.dir/src/algorithms/brute_force.cpp.o CMakeFiles/mincrossing.dir/src/utils/utility.cpp.o -o mincrossing 

@@ -1,0 +1,3 @@
+/home/thnglhu/study/Lab/Project/pace2024/CMakeFiles/mincrossing.dir
+/home/thnglhu/study/Lab/Project/pace2024/CMakeFiles/edit_cache.dir
+/home/thnglhu/study/Lab/Project/pace2024/CMakeFiles/rebuild_cache.dir
