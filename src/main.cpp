@@ -1,9 +1,12 @@
 #include <iostream>
 #include <graph/bipartite_graph.h>
-#include <utils/utility.h>
 #include <algorithms/brute_force.h>
+#include <utils/argument.h>
 
 int main(int argc, char** args) {
+    auto argument = ProgramArgument::getInstance("mincrossing");
+    argument->parseArguments(argc, args);
+
     /**
      * An example:
      * 4 5 8
