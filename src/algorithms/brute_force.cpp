@@ -22,19 +22,22 @@ BruteForceAlgorithm::BruteForceAlgorithm(StoppingCondition& stoppingCondition, B
 }
 
 Solution BruteForceAlgorithm::findSolution() {
+    stoppingCondition.notifyStarted();
     const std::vector<std::vector<int>>& vs = graph.getVs1();
     std::vector<int> order;
     std::vector<int> *solution = nullptr;
     for (int i = 0; i < vs.size(); ++i) order.push_back(i);
     int minCrossing = graph.count(order);
     int i = 0;
-    while (next(order)) {
+    while (stoppingCondition.canContinue() && next(order)) {
+        stoppingCondition.notifyIterated();
         int crossing = graph.count(order);
         if (crossing < minCrossing) {
             minCrossing = crossing;
-            if (solution != nullptr) delete solution;
+            delete solution;
             solution = new std::vector<int>(order);
         }
     }
+    if (solution == nullptr) minCrossing = -1;
     return { minCrossing, solution };
 }
