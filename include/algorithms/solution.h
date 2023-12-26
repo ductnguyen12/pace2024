@@ -3,9 +3,16 @@
 
 #include <vector>
 
+/**
+ * @brief A solution struct containing a minimum number of crossing edges
+ * and its corresponding ordered list of vertices.
+*/
 struct Solution {
-    int min_crossing;
+    int minCrossing;
     std::vector<int>* order;
+    ~Solution() {
+        delete order;
+    }
 };
 
 #endif

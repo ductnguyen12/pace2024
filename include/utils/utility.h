@@ -1,6 +1,9 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+/**
+ * @brief Function for swapping the values of the two integeres
+*/
 void swap(int &a, int &b);
 
 template <class Iterator>

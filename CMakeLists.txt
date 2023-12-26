@@ -31,4 +31,5 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/p-ranav/argparse.git
 )
 FetchContent_MakeAvailable(argparse)
+
 target_link_libraries(mincrossing argparse)

@@ -29,7 +29,8 @@ int main(int argc, char** args) {
     DummyStoppingCondition stoppingCondition;
     BruteForceAlgorithm alg(stoppingCondition, graph);
     Solution solution = alg.findSolution();
-    std::cout << "Min crossing: " << solution.min_crossing << "\nOrder: ";
+
+    std::cout << "Min crossing: " << solution.minCrossing << "\nOrder: ";
     if (solution.order != nullptr) for (int i : *(solution.order)) std::cout << n0 + i + 1 << " ";
     std::cout << std::endl;
     return 1;
