@@ -35,7 +35,12 @@ void ProgramArgument::parseArguments(int argc, char **args) const {
     }
     catch (const std::exception &err) {
         std::cerr << err.what() << std::endl;
-        std::cerr << program;
+        /*
+        @Thang: Got 
+            error: no match for ‘operator<<’ (operand types are ‘std::ostream’ {aka ‘std::basic_ostream<char>’} and ‘const std::unique_ptr<argparse::ArgumentParser>’)
+        TODO: Fix this
+        */
+        // std::cerr << program;
         std::exit(1);
     }
 }

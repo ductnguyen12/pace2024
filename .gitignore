@@ -31,9 +31,11 @@
 *.out
 *.app
 
-# IDE
+# IDEs
 .idea
 .vscode
+
+# CMake files
 /Makefile
 /CMakeFiles/
 /build/

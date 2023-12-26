@@ -32,6 +32,7 @@ Solution BruteForceAlgorithm::findSolution() {
         int crossing = graph.count(order);
         if (crossing < minCrossing) {
             minCrossing = crossing;
+            if (solution != nullptr) delete solution;
             solution = new std::vector<int>(order);
         }
     }
