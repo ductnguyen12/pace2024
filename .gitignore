@@ -30,6 +30,7 @@
 *.exe
 *.out
 *.app
+mincrossing
 
 # IDEs
 .idea
