@@ -14,6 +14,7 @@ set(SOURCES
     src/algorithms/brute_force.cpp
     src/utils/utility.cpp
     src/utils/argument.cpp
+    src/stopping_conditions/time_stopping_condition.cpp
 )
 
 # Include directories
