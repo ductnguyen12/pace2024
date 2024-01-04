@@ -38,7 +38,7 @@ public:
 
 class Parser {
 private:
-    std::list<Token> tokens;
+    std::list<Token*> tokens;
 public:
     Parser(std::string const& filepath);
 

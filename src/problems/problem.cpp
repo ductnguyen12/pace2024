@@ -21,31 +21,36 @@ void Parser::tokenize(std::string const& filepath) {
         std::string value;
         while (iss >> value) {
             if (value == "c" || value == "p") {
-                tokens.emplace_back(value, Token::Type::KEYWORD);
+                tokens.push_back(new Token(value, Token::Type::KEYWORD));
             }
             else {
-                tokens.emplace_back(value, isNumber(value) ? Token::Type::NUMBER : Token::Type::NON_NUMBER);
+                tokens.push_back(new Token(value, isNumber(value) ? Token::Type::NUMBER : Token::Type::NON_NUMBER));
             }
         }
-        tokens.emplace_back(Token::Type::NEWLINE);
+        tokens.push_back(new Token("\\n", Token::Type::NEWLINE));
     }
-    tokens.emplace_back(Token::Type::END_OF_FILE);
-
+    tokens.push_back(new Token(Token::Type::END_OF_FILE));
+#ifdef DEBUG_MODE
+    for (Token* token : tokens) {
+        std::cout << "(" << token->value << ", " << (int)(token->type) << ")";
+    }
+    std::cout << std::endl;
+#endif
 }
 
 std::shared_ptr<Token> Parser::consume(Token::Type type, std::string const value) {
-    if (tokens.size() == 0 || tokens.front().type != type || tokens.back().value != value) {
+    if (tokens.size() == 0 || tokens.front()->type != type || tokens.front()->value != value) {
         return nullptr;
     }
-    Token* front = &tokens.front();
+    Token* front = tokens.front();
     tokens.pop_front();
     return std::shared_ptr<Token>(front);
 }
 std::shared_ptr<Token> Parser::consume(Token::Type type) {
-    if (tokens.size() == 0 || tokens.front().type != type) {
+    if (tokens.size() == 0 || tokens.front()->type != type) {
         return nullptr;
     }
-    Token* front = &tokens.front();
+    Token* front = tokens.front();
     tokens.pop_front();
     return std::shared_ptr<Token>(front);
 }
@@ -53,9 +58,13 @@ std::shared_ptr<Token> Parser::consume() {
     if (tokens.size() == 0) {
         return nullptr;
     }
-    Token* front = &tokens.front();
+    Token* front = tokens.front();
     tokens.pop_front();
     return std::shared_ptr<Token>(front);
+}
+
+Parser::Parser(std::string const& filepath) {
+    parseProblem(filepath);
 }
 
 Problem* Parser::parseProblem(std::string const& filepath) {
@@ -90,6 +99,9 @@ void Parser::parseComment(std::string& comment) {
             std::cerr << "Parsing error: Expected a newline token.";
         }
     }
+#ifdef DEBUG_MODE
+    std::cout << "Comment: " << comment << std::endl;
+#endif
 }
 
 void Parser::parseDescription(int& n0, int& n1, int& m, int*& cw, int*& ord) {
@@ -119,9 +131,15 @@ void Parser::parseDescription(int& n0, int& n1, int& m, int*& cw, int*& ord) {
         return;
     }
     m = std::stoi(token->value);
+#ifdef DEBUG_MODE
+    std::cout << n0 << " " << n1 << " " << m;
+#endif
     if ((token = consume(Token::Type::NEWLINE)) == nullptr) {
         parseCutWidth(n0, n1, m, cw, ord);
     }
+#ifdef DEBUG_MODE
+    std::cout << std::endl;
+#endif
 }
 void Parser::parseCutWidth(int const& n0, int const& n1, int const& m, int*& cw, int*& ord) {
     std::shared_ptr<Token> token;
@@ -146,6 +164,11 @@ void Parser::parseCutWidth(int const& n0, int const& n1, int const& m, int*& cw,
             return;
         }
     }
+#ifdef DEBUG_MODE
+    std::cout << *cw << " [";
+    for (int i = 0; i < n0 + n1; i++) std::cout << " " << ord[i] << " ";
+    std::cout << "]" << std::endl;
+#endif
 }
 void Parser::parseConnection(int const& n0, int const& n1, int const& m, std::vector<std::vector<int>>& v1) {
     v1.resize(n1);
@@ -166,6 +189,15 @@ void Parser::parseConnection(int const& n0, int const& n1, int const& m, std::ve
             std::cerr << "Parsing error: Expected a newline token.";
             return;
         }
-        v1[b - n0].push_back(a - 1);
+        v1[b - n0 - 1].push_back(a - 1);
     }
+#ifdef DEBUG_MODE
+    for (int i=0; i < v1.size(); i++) {
+        std::cout << n0 + i + 1 << ": ";
+        for (int& n : v1[i]) {
+            std::cout << n << " ";
+        }
+        std::cout << std::endl;
+    }
+#endif
 }

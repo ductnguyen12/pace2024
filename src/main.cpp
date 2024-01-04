@@ -2,6 +2,7 @@
 #include <graph/bipartite_graph.h>
 #include <algorithms/brute_force.h>
 #include <utils/argument.h>
+#include <problems/problem.h>
 
 int main(int argc, char** args) {
     auto argument = ProgramArgument::getInstance("mincrossing");
@@ -33,5 +34,9 @@ int main(int argc, char** args) {
     std::cout << "Min crossing: " << solution.minCrossing << "\nOrder: ";
     if (solution.order != nullptr) for (int i : *(solution.order)) std::cout << n0 + i + 1 << " ";
     std::cout << std::endl;
+#ifdef DEBUG_MODE
+    Parser parser("examples/OCR/cycle_8_shuffled.gr");
+
+#endif
     return 1;
 }
