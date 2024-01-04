@@ -77,7 +77,9 @@ Problem* Parser::parseProblem(std::string const& filepath) {
     parseDescription(n0, n1, m, cw, ord);
     std::vector<std::vector<int>> v1;
     parseConnection(n0, n1, m, v1);
-    consume(Token::Type::END_OF_FILE);
+    if (consume(Token::Type::END_OF_FILE) == nullptr || tokens.size() != 0) {
+        std::cerr << "Parsing error: Expected end of file.";
+    }
     // TODO: create the problem
     return nullptr;
 }
