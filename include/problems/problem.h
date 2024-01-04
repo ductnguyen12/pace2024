@@ -3,12 +3,54 @@
 
 #include <algorithms/algorithm.h>
 #include <algorithms/solution.h>
+#include <initializer_list>
+#include <string>
+#include <list>
+#include <memory>
 
 class Problem {
-public:
-    Solution findSolution(Algorithm& algorithm) = 0;
+private:
 
-    static Problem* parseProblem(const char ** string);
+public:
+    Solution findSolution(Algorithm& algorithm);
+};
+
+// class ExactProblem : public Problem {
+
+// };
+
+// class ParameterizedProblem : public Problem {
+
+// };
+
+// class Heuristic : public ExactProblem {
+
+// };
+
+class Token {
+public:
+    enum Type { KEYWORD, NUMBER, NON_NUMBER, NEWLINE, END_OF_FILE };
+    Type const type;
+    std::string const value;
+    Token(std::string const& value, Type const type) : value(value), type(type) { }
+    Token(Type const type) : type(type) { }
+};
+
+class Parser {
+private:
+    std::list<Token> tokens;
+public:
+    Parser(std::string const& filepath);
+
+    void tokenize(std::string const& filepath);
+    std::shared_ptr<Token> consume(Token::Type type, std::string const value);
+    std::shared_ptr<Token> consume(Token::Type type);
+    std::shared_ptr<Token> consume();
+    void parseComment(std::string& comment);
+    void parseDescription(int& n0, int& n1, int& m, int*& cw, int*& ord);
+    void parseCutWidth(int const& n0, int const& n1, int const& m, int*& cw, int*& ord);
+    void parseConnection(int const& n0, int const& n1, int const& m, std::vector<std::vector<int>>& v1);
+    Problem* parseProblem(std::string const& filepath);
 };
 
 #endif

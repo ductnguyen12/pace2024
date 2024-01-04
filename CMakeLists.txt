@@ -10,6 +10,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
 
 set(SOURCES
     src/main.cpp
+    src/problems/problem.cpp
     src/graph/bipartite_graph.cpp
     src/algorithms/brute_force.cpp
     src/utils/utility.cpp
