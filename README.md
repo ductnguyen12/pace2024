@@ -4,9 +4,10 @@ Graph and Network Algorithms Lab (Exercises)
 # Building tutorial
 Build the project using 
 ```bash
-./build.sh [-c]
+./build.sh [-c] [-d]
 ```
-The executable <span style="color:yellow">mincrossing</span> is located in the **/build** directory, and if the <span style="color:yellow">-c</span> flag is used, a duplicate can be found in the root folder.
+- -c: copy the executable to the root folder (otherwise you can find it in the **/build** directory)
+- -d: enable the debug mode (sets the flag DEBUG_MODE)
 
 # Executing tutorial
 The project is not finished yet and can only be executed by using, for example,

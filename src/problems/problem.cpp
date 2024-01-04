@@ -30,6 +30,7 @@ void Parser::tokenize(std::string const& filepath) {
         tokens.emplace_back(Token::Type::NEWLINE);
     }
     tokens.emplace_back(Token::Type::END_OF_FILE);
+
 }
 
 std::shared_ptr<Token> Parser::consume(Token::Type type, std::string const value) {

@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_FLAGS_DEBUG "-g -DDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
 
+# Set sources
 set(SOURCES
     src/main.cpp
     src/problems/problem.cpp
@@ -17,6 +18,11 @@ set(SOURCES
     src/utils/argument.cpp
     src/stopping_conditions/time_stopping_condition.cpp
 )
+
+# Set DEBUG_MODE definition
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+    add_compile_definitions(DEBUG_MODE)
+endif()
 
 # Include directories
 include_directories(include/)
