@@ -132,7 +132,7 @@ void Parser::parseDescription(int& n0, int& n1, int& m, int*& cw, int*& ord) {
     }
     m = std::stoi(token->value);
 #ifdef DEBUG_MODE
-    std::cout << n0 << " " << n1 << " " << m;
+    std::cout << "n0: " << n0 << " n1: " << n1 << " m: " << m;
 #endif
     if ((token = consume(Token::Type::NEWLINE)) == nullptr) {
         parseCutWidth(n0, n1, m, cw, ord);
@@ -195,7 +195,7 @@ void Parser::parseConnection(int const& n0, int const& n1, int const& m, std::ve
     for (int i=0; i < v1.size(); i++) {
         std::cout << n0 + i + 1 << ": ";
         for (int& n : v1[i]) {
-            std::cout << n << " ";
+            std::cout << n + 1 << " ";
         }
         std::cout << std::endl;
     }
