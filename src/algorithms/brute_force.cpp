@@ -17,27 +17,29 @@ bool BruteForceAlgorithm::next(std::vector<int> &v) {
     return false;
 }
 
-BruteForceAlgorithm::BruteForceAlgorithm(StoppingCondition& stoppingCondition, BipartiteGraph& graph) : Algorithm(stoppingCondition), graph(graph) {
+BruteForceAlgorithm::BruteForceAlgorithm(StoppingCondition& stoppingCondition) : Algorithm(stoppingCondition) {
 
 }
 
-Solution BruteForceAlgorithm::findSolution() {
+Solution BruteForceAlgorithm::findSolution(BipartiteGraph *graph) {
     stoppingCondition.notifyStarted();
-    const std::vector<std::vector<int>>& vs = graph.getVs1();
     std::vector<int> order;
     std::vector<int> *solution = nullptr;
-    for (int i = 0; i < vs.size(); ++i) order.push_back(i);
-    int minCrossing = graph.count(order);
-    int i = 0;
-    while (stoppingCondition.canContinue() && next(order)) {
-        stoppingCondition.notifyIterated();
-        int crossing = graph.count(order);
-        if (crossing < minCrossing) {
-            minCrossing = crossing;
-            delete solution;
-            solution = new std::vector<int>(order);
+    int minCrossing = -1;
+    if (graph != nullptr) {
+        const std::vector<std::vector<int>>& vs = graph->getVs1();
+        for (int i = 0; i < vs.size(); ++i) order.push_back(i);
+        minCrossing = graph->count(order);
+        int i = 0;
+        while (stoppingCondition.canContinue() && next(order)) {
+            stoppingCondition.notifyIterated();
+            int crossing = graph->count(order);
+            if (crossing < minCrossing) {
+                minCrossing = crossing;
+                delete solution;
+                solution = new std::vector<int>(order);
+            }
         }
     }
-    if (solution == nullptr) minCrossing = -1;
     return { minCrossing, solution };
 }

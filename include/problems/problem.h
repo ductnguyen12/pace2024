@@ -1,6 +1,7 @@
 #ifndef PROBLEM_H
 #define PROBLEM_H
 
+#include <graph/bipartite_graph.h>
 #include <algorithms/algorithm.h>
 #include <algorithms/solution.h>
 #include <initializer_list>
@@ -10,22 +11,12 @@
 
 class Problem {
 private:
-
+    BipartiteGraph graph;
+    int *cw, *ord;
 public:
+    Problem(int n0, int n1, std::vector<std::vector<int>> const& v1, int* cw, int* ord);
     Solution findSolution(Algorithm& algorithm);
 };
-
-// class ExactProblem : public Problem {
-
-// };
-
-// class ParameterizedProblem : public Problem {
-
-// };
-
-// class Heuristic : public ExactProblem {
-
-// };
 
 class Token {
 public:
@@ -40,7 +31,7 @@ class Parser {
 private:
     std::list<Token*> tokens;
 public:
-    Parser(std::string const& filepath);
+    Parser();
 
     void tokenize(std::string const& filepath);
     std::shared_ptr<Token> consume(Token::Type type, std::string const value);

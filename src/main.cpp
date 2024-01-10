@@ -28,14 +28,21 @@ int main(int argc, char** args) {
     int m = 8;
     BipartiteGraph graph(n0, n1, vs);
     DummyStoppingCondition stoppingCondition;
-    BruteForceAlgorithm alg(stoppingCondition, graph);
-    Solution solution = alg.findSolution();
+    BruteForceAlgorithm alg(stoppingCondition);
+    Solution solution = alg.findSolution(&graph);
 
     std::cout << "Min crossing: " << solution.minCrossing << "\nOrder: ";
     if (solution.order != nullptr) for (int i : *(solution.order)) std::cout << n0 + i + 1 << " ";
     std::cout << std::endl;
 #ifdef DEBUG_MODE
-    Parser parser("examples/OCR/cycle_8_shuffled.gr");
+    Parser parser;
+    Problem* problem = parser.parseProblem("examples/OCR/cycle_8_shuffled.gr");
+    if (problem != nullptr) {
+        Solution solution = problem->findSolution(alg);
+        std::cout << "Min crossing: " << solution.minCrossing << "\nOrder: ";
+        if (solution.order != nullptr) for (int i : *(solution.order)) std::cout << n0 + i + 1 << " ";
+        std::cout << std::endl;
+    }
 
 #endif
     return 1;

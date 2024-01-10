@@ -9,6 +9,14 @@ bool isNumber(std::string const& value) {
     return !value.empty() && std::all_of(value.begin(), value.end(),  ::isdigit);
 }
 
+Problem::Problem(int n0, int n1, std::vector<std::vector<int>> const& v1, int* cw, int* ord) : graph(n0, n1, v1), cw(cw), ord(ord) {
+
+}
+
+Solution Problem::findSolution(Algorithm &algorithm) {
+    return algorithm.findSolution(&graph);
+}
+
 void Parser::tokenize(std::string const& filepath) {
     std::ifstream file(filepath);
     if (!file.is_open()) {
@@ -63,8 +71,8 @@ std::shared_ptr<Token> Parser::consume() {
     return std::shared_ptr<Token>(front);
 }
 
-Parser::Parser(std::string const& filepath) {
-    parseProblem(filepath);
+Parser::Parser() {
+
 }
 
 Problem* Parser::parseProblem(std::string const& filepath) {
@@ -80,8 +88,7 @@ Problem* Parser::parseProblem(std::string const& filepath) {
     if (consume(Token::Type::END_OF_FILE) == nullptr || tokens.size() != 0) {
         std::cerr << "Parsing error: Expected end of file.";
     }
-    // TODO: create the problem
-    return nullptr;
+    return new Problem(n0, n1, v1, cw, ord);
 }
 
 void Parser::parseComment(std::string& comment) {

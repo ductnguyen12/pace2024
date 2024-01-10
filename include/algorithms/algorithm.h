@@ -2,6 +2,7 @@
 #define ALGORITHM_H
 
 #include <algorithms/solution.h>
+#include <graph/bipartite_graph.h>
 #include <stopping_conditions/stopping_condition.h>
 
 class Algorithm {
@@ -17,7 +18,7 @@ public:
      * to search for and return a solution based on specific algorithms. Also, remember to call
      * `stoppingCondition.notifySearch()` to initialize the stopping condition properly.
     */
-    virtual Solution findSolution() = 0;
+    virtual Solution findSolution(BipartiteGraph *graph) = 0;
 
     /**
      * @brief Checks if the algorithm can continue based on the stopping condition
