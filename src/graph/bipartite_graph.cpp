@@ -41,7 +41,6 @@ int BipartiteGraph::count(Container const& order) const {
 template int BipartiteGraph::count(std::vector<int> const& order) const;
 template int BipartiteGraph::count(std::list<int> const& order) const;
 
-
 int BipartiteGraph::__count(std::vector<int> const& v1, std::vector<int> const& v2) {
     if (v1.size() == 0 || v2.size()  == 0) {
         return 0;

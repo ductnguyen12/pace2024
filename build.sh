@@ -21,6 +21,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ "$debug_flag" == "1" ]; then
+    echo "DEBUG MODE enabled"
     cmake -DCMAKE_BUILD_TYPE=Debug ..
 else
     cmake ..
