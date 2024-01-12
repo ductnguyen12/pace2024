@@ -30,6 +30,7 @@ Solution BruteForceAlgorithm::findSolution(BipartiteGraph *graph) {
         const std::vector<std::vector<int>>& vs = graph->getVs1();
         for (int i = 0; i < vs.size(); ++i) order.push_back(i);
         minCrossing = graph->count(order);
+        solution = new std::vector<int>(order);
         int i = 0;
         while (stoppingCondition.canContinue() && next(order)) {
             stoppingCondition.notifyIterated();

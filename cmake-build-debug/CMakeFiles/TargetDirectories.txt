@@ -1,0 +1,9 @@
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/CMakeFiles/mincrossing.dir
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/CMakeFiles/package.dir
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/CMakeFiles/package_source.dir
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-build/CMakeFiles/package.dir
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-build/CMakeFiles/package_source.dir
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-build/CMakeFiles/edit_cache.dir
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-build/CMakeFiles/rebuild_cache.dir

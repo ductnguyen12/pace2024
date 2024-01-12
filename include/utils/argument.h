@@ -6,6 +6,7 @@
 #define ARGUMENTS_H
 
 #include <argparse/argparse.hpp>
+#include <memory>
 
 class ProgramArgument {
 private:

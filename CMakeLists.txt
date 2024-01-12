@@ -17,6 +17,9 @@ set(SOURCES
     src/utils/utility.cpp
     src/utils/argument.cpp
     src/stopping_conditions/time_stopping_condition.cpp
+        include/algorithms/random_search.h
+        include/algorithms/simulated_annealing.h
+        src/algorithms/random_search.cpp
 )
 
 # Set DEBUG_MODE definition

@@ -1,0 +1,3 @@
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/CMakeFiles/argparse-populate.dir
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/CMakeFiles/edit_cache.dir
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/CMakeFiles/rebuild_cache.dir

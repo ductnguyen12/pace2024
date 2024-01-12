@@ -3,6 +3,8 @@
 #include <algorithms/brute_force.h>
 #include <utils/argument.h>
 #include <problems/problem.h>
+#include <stopping_conditions/time_stopping_condition.h>
+#include <algorithms/random_search.h>
 
 int main(int argc, char** args) {
     auto argument = ProgramArgument::getInstance("mincrossing");
@@ -27,8 +29,8 @@ int main(int argc, char** args) {
     int n1 = 5;
     int m = 8;
     BipartiteGraph graph(n0, n1, vs);
-    DummyStoppingCondition stoppingCondition;
-    BruteForceAlgorithm alg(stoppingCondition);
+    TimeStoppingCondition stoppingCondition(1*1000000);
+    RandomSearchAlgorithm alg(stoppingCondition);
     Solution solution = alg.findSolution(&graph);
 
     std::cout << "Min crossing: " << solution.minCrossing << "\nOrder: ";
@@ -36,7 +38,7 @@ int main(int argc, char** args) {
     std::cout << std::endl;
 #ifdef DEBUG_MODE
     Parser parser;
-    Problem* problem = parser.parseProblem("examples/OCR/cycle_8_shuffled.gr");
+    Problem* problem = parser.parseProblem("C:\\Users\\LENOVO\\Desktop\\Graph lab\\pace2024\\examples\\OCR\\tree_6_10.gr");
     if (problem != nullptr) {
         Solution solution = problem->findSolution(alg);
         std::cout << "Min crossing: " << solution.minCrossing << "\nOrder: ";

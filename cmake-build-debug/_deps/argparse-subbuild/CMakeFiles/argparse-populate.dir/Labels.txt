@@ -1,0 +1,14 @@
+# Target labels
+ argparse-populate
+# Source files and their labels
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/CMakeFiles/argparse-populate
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/CMakeFiles/argparse-populate.rule
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/CMakeFiles/argparse-populate-complete.rule
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-build.rule
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-configure.rule
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-download.rule
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-install.rule
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-mkdir.rule
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-patch.rule
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-test.rule
+C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-update.rule
