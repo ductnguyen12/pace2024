@@ -7,10 +7,9 @@
 
 class SimulatedAnnealing : public Algorithm {
 private:
-    static bool generateRandomStart(std::vector<int> &v);
-    static bool pickRandomNeighbor(std::vector<int> &v);
-    static bool updateTemperature(double &t);
-    static bool acceptanceProbability(int &oldFitness,int &curFitness,double &t);
+    static std::vector<int> generateRandomStart(int n1);
+    static std::vector<int> pickRandomNeighbor(std::vector<int> &v);
+    static double acceptanceProbability(int oldFitness,int curFitness,double t);
 public:
     SimulatedAnnealing(StoppingCondition& stoppingCondition);
 

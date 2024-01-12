@@ -7,6 +7,6 @@ CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
   CMake that the project does not need compatibility with older versions.
 
 
--- Configuring done (2.1s)
+-- Configuring done (1.7s)
 -- Generating done (0.0s)
 -- Build files have been written to: C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug

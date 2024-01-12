@@ -20,6 +20,7 @@ set(SOURCES
         include/algorithms/random_search.h
         include/algorithms/simulated_annealing.h
         src/algorithms/random_search.cpp
+        src/algorithms/simulated_annealing.cpp
 )
 
 # Set DEBUG_MODE definition

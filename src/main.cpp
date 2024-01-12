@@ -5,6 +5,7 @@
 #include <problems/problem.h>
 #include <stopping_conditions/time_stopping_condition.h>
 #include <algorithms/random_search.h>
+#include <algorithms/simulated_annealing.h>
 
 int main(int argc, char** args) {
     auto argument = ProgramArgument::getInstance("mincrossing");
@@ -29,8 +30,8 @@ int main(int argc, char** args) {
     int n1 = 5;
     int m = 8;
     BipartiteGraph graph(n0, n1, vs);
-    TimeStoppingCondition stoppingCondition(1*1000000);
-    RandomSearchAlgorithm alg(stoppingCondition);
+    TimeStoppingCondition stoppingCondition(0.01*1000000);
+    SimulatedAnnealing alg(stoppingCondition);
     Solution solution = alg.findSolution(&graph);
 
     std::cout << "Min crossing: " << solution.minCrossing << "\nOrder: ";

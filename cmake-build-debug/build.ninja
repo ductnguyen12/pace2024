@@ -113,6 +113,14 @@ build CMakeFiles/mincrossing.dir/src/algorithms/random_search.cpp.obj: CXX_COMPI
   OBJECT_DIR = CMakeFiles\mincrossing.dir
   OBJECT_FILE_DIR = CMakeFiles\mincrossing.dir\src\algorithms
 
+build CMakeFiles/mincrossing.dir/src/algorithms/simulated_annealing.cpp.obj: CXX_COMPILER__mincrossing_unscanned_Debug C$:/Users/LENOVO/Desktop/Graph$ lab/pace2024/src/algorithms/simulated_annealing.cpp || cmake_object_order_depends_target_mincrossing
+  DEFINES = -DDEBUG_MODE
+  DEP_FILE = CMakeFiles\mincrossing.dir\src\algorithms\simulated_annealing.cpp.obj.d
+  FLAGS = -g -DDEBUG -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -I"C:/Users/LENOVO/Desktop/Graph lab/pace2024/include" -I"C:/Users/LENOVO/Desktop/Graph lab/pace2024/cmake-build-debug/_deps/argparse-src/include"
+  OBJECT_DIR = CMakeFiles\mincrossing.dir
+  OBJECT_FILE_DIR = CMakeFiles\mincrossing.dir\src\algorithms
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target mincrossing
@@ -121,7 +129,7 @@ build CMakeFiles/mincrossing.dir/src/algorithms/random_search.cpp.obj: CXX_COMPI
 #############################################
 # Link the executable mincrossing.exe
 
-build mincrossing.exe: CXX_EXECUTABLE_LINKER__mincrossing_Debug CMakeFiles/mincrossing.dir/src/main.cpp.obj CMakeFiles/mincrossing.dir/src/problems/problem.cpp.obj CMakeFiles/mincrossing.dir/src/graph/bipartite_graph.cpp.obj CMakeFiles/mincrossing.dir/src/algorithms/brute_force.cpp.obj CMakeFiles/mincrossing.dir/src/utils/utility.cpp.obj CMakeFiles/mincrossing.dir/src/utils/argument.cpp.obj CMakeFiles/mincrossing.dir/src/stopping_conditions/time_stopping_condition.cpp.obj CMakeFiles/mincrossing.dir/src/algorithms/random_search.cpp.obj
+build mincrossing.exe: CXX_EXECUTABLE_LINKER__mincrossing_Debug CMakeFiles/mincrossing.dir/src/main.cpp.obj CMakeFiles/mincrossing.dir/src/problems/problem.cpp.obj CMakeFiles/mincrossing.dir/src/graph/bipartite_graph.cpp.obj CMakeFiles/mincrossing.dir/src/algorithms/brute_force.cpp.obj CMakeFiles/mincrossing.dir/src/utils/utility.cpp.obj CMakeFiles/mincrossing.dir/src/utils/argument.cpp.obj CMakeFiles/mincrossing.dir/src/stopping_conditions/time_stopping_condition.cpp.obj CMakeFiles/mincrossing.dir/src/algorithms/random_search.cpp.obj CMakeFiles/mincrossing.dir/src/algorithms/simulated_annealing.cpp.obj
   FLAGS = -g -DDEBUG
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\mincrossing.dir
