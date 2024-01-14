@@ -42,3 +42,4 @@ mincrossing
 /build/
 cmake_install.cmake
 CMakeCache.txt
+cmake-build-*

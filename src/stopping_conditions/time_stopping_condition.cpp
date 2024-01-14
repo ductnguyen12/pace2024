@@ -1,14 +1,11 @@
 #include <stopping_conditions/time_stopping_condition.h>
-#include <assert.h>
 
-TimeStoppingCondition::TimeStoppingCondition(unsigned int const microseconds) : duration(microseconds) { 
+TimeStoppingCondition::TimeStoppingCondition(unsigned int const milliseconds) : duration(milliseconds * 1000) {
     
 }
 
 bool TimeStoppingCondition::canContinue() {
-    assert(startTime.time_since_epoch().count() != 0);
-
-    return std::chrono::steady_clock::now() - startTime < duration;
+    return (std::chrono::steady_clock::now() - startTime) < duration;
 }
 
 void TimeStoppingCondition::notifyStarted() {

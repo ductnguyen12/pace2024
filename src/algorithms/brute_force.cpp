@@ -26,6 +26,7 @@ Solution BruteForceAlgorithm::findSolution(BipartiteGraph *graph) {
     std::vector<int> order;
     std::vector<int> *solution = nullptr;
     int minCrossing = -1;
+    
     if (graph != nullptr) {
         const std::vector<std::vector<int>>& vs = graph->getVs1();
         for (int i = 0; i < vs.size(); ++i) order.push_back(i);

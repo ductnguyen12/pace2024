@@ -2,6 +2,8 @@
 // Created by ducnt on 12/24/23.
 //
 #include <utils/argument.h>
+#include <algorithms/brute_force.h>
+#include <algorithms/genetic_algorithm.h>
 
 ProgramArgument *ProgramArgument::instance = nullptr;
 
@@ -17,18 +19,22 @@ ProgramArgument *ProgramArgument::getInstance(const std::string &programName) {
 }
 
 void ProgramArgument::parseArguments(int argc, char **args) const {
+    program->add_argument("-i", "--input")
+        .required()
+        .help("input file to be read.");
     program->add_argument("-a", "--algorithm")
-            .required()
-            .choices("SA", "GA")
-            .help("The algorithm to run. "
-                  "Either Simulated Annealing ('SA') or Genetic Algorithm ('GA').");
+        .required()
+        .default_value("BF")
+        .choices("SA", "GA", "BF")
+        .help("The algorithm to run. "
+                "Either Simulated Annealing ('SA'), Genetic Algorithm ('GA'), or Brute Force ('BF').");
     program->add_argument("-t", "--time")
-            .default_value(300)
-            .help("The maximum runtime (in seconds) for the algorithm "
-                  "per repetition before the search is stopped.");
-    program->add_argument("-z", "--size")
-            .default_value(20)
-            .help("The population size 𝑧 > 1 to be used for genetic algorithms");
+        .default_value("1000")
+        .help("The maximum runtime (in milli-seconds) for the algorithm "
+                "per repetition before the search is stopped.");
+    // program->add_argument("-z", "--size")
+    //         .default_value(20)
+    //         .help("The population size 𝑧 > 1 to be used for genetic algorithms");
 
     try {
         program->parse_args(argc, args);
@@ -45,12 +51,19 @@ void ProgramArgument::parseArguments(int argc, char **args) const {
     }
 }
 
-std::string ProgramArgument::getAlgorithm() const {
-    return program->get<std::string>("--algorithm");
+std::string ProgramArgument::getInput() const {
+    return program->get<std::string>("--input");
+}
+
+Algorithm* ProgramArgument::getAlgorithm(StoppingCondition &stoppingCondition) const {
+    std::string name = program->get<std::string>("--algorithm");
+    if (name ==  "GA") return new GeneticAlgorithm(stoppingCondition);
+    else if (name == "BF") return new BruteForceAlgorithm(stoppingCondition);
+    return nullptr;
 }
 
 int ProgramArgument::getMaxTime() const {
-    return program->get<int>("--time");
+    return std::stoi(program->get<std::string>("--time"));
 }
 
 unsigned int ProgramArgument::getPopulationSize() const {

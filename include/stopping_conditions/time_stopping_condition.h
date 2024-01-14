@@ -9,7 +9,7 @@ private:
     std::chrono::steady_clock::time_point startTime;
     std::chrono::microseconds duration;
 public:
-    TimeStoppingCondition(unsigned int const microseconds);
+    TimeStoppingCondition(unsigned int const milliseconds);
     bool canContinue() override;
     void notifyStarted() override;
     void notifyIterated() override;

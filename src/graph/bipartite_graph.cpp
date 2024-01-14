@@ -22,7 +22,7 @@ BipartiteGraph::~BipartiteGraph() {
 }
 
 int BipartiteGraph::getN0() const { return n0; }
-int BipartiteGraph::getN1() const { return n0; }
+int BipartiteGraph::getN1() const { return n1; }
 const std::vector<std::vector<int>>& BipartiteGraph::getVs0() const { return vs0; }
 const std::vector<std::vector<int>>& BipartiteGraph::getVs1() const { return vs1; }
 

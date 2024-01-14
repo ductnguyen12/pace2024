@@ -12,5 +12,8 @@ Build the project using
 # Executing tutorial
 The project is not finished yet and can only be executed by using, for example,
 ```bash
-./mincrossing -a SA
+./mincrossing -a <algorithm> -t <milli-seconds> -i <input file>
+```
+```bash
+./mincrossing -a GA -t 1234 -i "examples/OCR/tree_6_10.gr"
 ```

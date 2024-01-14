@@ -6,6 +6,8 @@
 #define ARGUMENTS_H
 
 #include <argparse/argparse.hpp>
+#include <algorithms/brute_force.h>
+#include <algorithms/genetic_algorithm.h>
 
 class ProgramArgument {
 private:
@@ -23,7 +25,9 @@ public:
 
     void parseArguments(int argc, char **args) const;
 
-    [[nodiscard]] std::string getAlgorithm() const;
+    [[nodiscard]] std::string getInput() const;
+
+    [[nodiscard]] Algorithm* getAlgorithm(StoppingCondition &stoppingCondition) const;
 
     [[nodiscard]] int getMaxTime() const;
 

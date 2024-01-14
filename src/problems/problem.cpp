@@ -4,6 +4,7 @@
 #include <sstream>
 #include <cctype>
 #include <algorithm>
+#include <stdexcept>
 
 bool isNumber(std::string const& value) {
     return !value.empty() && std::all_of(value.begin(), value.end(),  ::isdigit);
@@ -20,8 +21,7 @@ Solution Problem::findSolution(Algorithm &algorithm) {
 void Parser::tokenize(std::string const& filepath) {
     std::ifstream file(filepath);
     if (!file.is_open()) {
-        std::cerr << "Tokenization error: Cannot open file.";
-        return;
+        throw std::runtime_error("Tokenization error: Cannot open file.");
     }
     std::string line;
     while (std::getline(file, line)) {
@@ -86,7 +86,7 @@ Problem* Parser::parseProblem(std::string const& filepath) {
     std::vector<std::vector<int>> v1;
     parseConnection(n0, n1, m, v1);
     if (consume(Token::Type::END_OF_FILE) == nullptr || tokens.size() != 0) {
-        std::cerr << "Parsing error: Expected end of file.";
+        throw std::runtime_error("Parsing error: Expected end of file.");
     }
     return new Problem(n0, n1, v1, cw, ord);
 }
@@ -102,10 +102,10 @@ void Parser::parseComment(std::string& comment) {
             comment.append(" " + c->value);
         }
         if (c == nullptr) {
-            std::cerr << "Parsing error: Out of tokens.";
+            throw std::runtime_error("Parsing error: Out of tokens.");
         }
         else if (c->type != Token::Type::NEWLINE) {
-            std::cerr << "Parsing error: Expected a newline token.";
+            throw std::runtime_error("Parsing error: Expected a newline token.");
         }
     }
 #ifdef DEBUG_MODE
@@ -117,26 +117,26 @@ void Parser::parseDescription(int& n0, int& n1, int& m, int*& cw, int*& ord) {
     cw = nullptr;
     ord = nullptr;
     if (consume(Token::Type::KEYWORD, "p") == nullptr) {
-        std::cerr << "Parsing error: Expected a keyword \"p\".";
+        throw std::runtime_error("Parsing error: Expected a keyword \"p\".");
         return;
     }
     if (consume(Token::Type::NON_NUMBER, "ocr") == nullptr) {
-        std::cerr << "Parsing error: Expected a num-numeric token \"ocr\".";
+        throw std::runtime_error("Parsing error: Expected a num-numeric token \"ocr\".");
         return;
     }
     std::shared_ptr<Token> token;
     if ((token = consume(Token::Type::NUMBER)) == nullptr) {
-        std::cerr << "Parsing error: Expected a numeric token \"n0\".";
+        throw std::runtime_error("Parsing error: Expected a numeric token \"n0\".");
         return;
     }
     n0 = std::stoi(token->value);
     if ((token = consume(Token::Type::NUMBER)) == nullptr) {
-        std::cerr << "Parsing error: Expected a numeric token \"n1\".";
+        throw std::runtime_error("Parsing error: Expected a numeric token \"n1\".");
         return;
     }
     n1 = std::stoi(token->value);
     if ((token = consume(Token::Type::NUMBER)) == nullptr) {
-        std::cerr << "Parsing error: Expected a numeric token \"m\".";
+        throw std::runtime_error("Parsing error: Expected a numeric token \"m\".");
         return;
     }
     m = std::stoi(token->value);
@@ -153,23 +153,23 @@ void Parser::parseDescription(int& n0, int& n1, int& m, int*& cw, int*& ord) {
 void Parser::parseCutWidth(int const& n0, int const& n1, int const& m, int*& cw, int*& ord) {
     std::shared_ptr<Token> token;
     if ((token = consume(Token::Type::NUMBER)) == nullptr) {
-        std::cerr << "Parsing error: Expected a numeric token \"cw\".";
+        throw std::runtime_error("Parsing error: Expected a numeric token \"cw\".");
         return;
     }
     if (consume(Token::Type::NEWLINE) == nullptr) {
-        std::cerr << "Parsing error: Expected a newline token.";
+        throw std::runtime_error("Parsing error: Expected a newline token.");
         return;
     }
     cw = new int(std::stoi(token->value));
     ord = new int[n0 + n1];
     for (int idx = 0; idx < n0 + n1; idx++) {
         if ((token = consume(Token::Type::NUMBER)) == nullptr) {
-            std::cerr << "Parsing error: Expected a numeric token.";
+            throw std::runtime_error("Parsing error: Expected a numeric token.");
             return;
         }
         ord[idx] = std::stoi(token->value);
         if (consume(Token::Type::NEWLINE) == nullptr) {
-            std::cerr << "Parsing error: Expected a newline token.";
+            throw std::runtime_error("Parsing error: Expected a newline token.");
             return;
         }
     }
@@ -185,17 +185,17 @@ void Parser::parseConnection(int const& n0, int const& n1, int const& m, std::ve
     for (std::vector<int>& v : v1) v.clear();
     for (int idx = 0; idx < m; idx++) {
         if ((token = consume(Token::Type::NUMBER)) == nullptr) {
-            std::cerr << "Parsing error: Expected a numeric token.";
+            throw std::runtime_error("Parsing error: Expected a numeric token.");
             return;
         }
         int a = std::stoi(token->value);
         if ((token = consume(Token::Type::NUMBER)) == nullptr) {
-            std::cerr << "Parsing error: Expected a numeric token.";
+            throw std::runtime_error("Parsing error: Expected a numeric token.");
             return;
         }
         int b = std::stoi(token->value);
         if ((token = consume(Token::Type::NEWLINE)) == nullptr) {
-            std::cerr << "Parsing error: Expected a newline token.";
+            throw std::runtime_error("Parsing error: Expected a newline token.");
             return;
         }
         v1[b - n0 - 1].push_back(a - 1);
