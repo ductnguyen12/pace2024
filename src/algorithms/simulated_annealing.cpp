@@ -1,33 +1,31 @@
 #include "algorithms/simulated_annealing.h"
 
 #include <algorithm>
-#include <random>
+#include <utils/random.h>
+#include <utils/utility.h>
 #include <vector>
-#include<iostream>
+#include <iostream>
 #include <cmath>
 #include <chrono>
 
 SimulatedAnnealing::SimulatedAnnealing(StoppingCondition &stoppingCondition) : Algorithm(stoppingCondition){}
 
 std::vector<int> SimulatedAnnealing::generateRandomStart(int n1) {
-    std::vector<int>v;
-    for(int i=0;i<n1;++i) v.push_back(i);
-    std::shuffle(v.begin(),v.end(), std::mt19937(std::random_device()()));
+    Random& random = Random::getInstance();
+    std::vector<int> v = generateVector(n1);
+    random.shuffle(v);
     return v;
 }
 
 std::vector<int> SimulatedAnnealing::pickRandomNeighbor(std::vector<int> &v) {
+    Random& random = Random::getInstance();
     int n1 = v.size();
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> indexDistribution(0, n1 - 1);
-    std::uniform_int_distribution<int> jumpDistribution(- (n1 - 1), n1 - 1);
 
     int newIndex,oldIndex;
     newIndex = oldIndex = 0;
     while(newIndex == oldIndex){
-        oldIndex = indexDistribution(gen);
-        int randomJump = jumpDistribution(gen);
+        oldIndex = random.getInt(0, n1);
+        int randomJump = random.getInt(-(n1 - 1), n1);
         newIndex = oldIndex + randomJump;
         if(newIndex < 0) newIndex = 0;
         if(newIndex > n1-1) newIndex = n1-1;
@@ -55,7 +53,7 @@ std::vector<int> SimulatedAnnealing::pickRandomNeighbor(std::vector<int> &v) {
     return ret;
 }
 
-double SimulatedAnnealing::acceptanceProbability(int oldFitness, int curFitness, double t) {
+float SimulatedAnnealing::acceptanceProbability(int oldFitness, int curFitness, float t) {
     if(curFitness < oldFitness){
         return 1.0;
     }
@@ -64,15 +62,13 @@ double SimulatedAnnealing::acceptanceProbability(int oldFitness, int curFitness,
 
 
 Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph) {
+    Random& random = Random::getInstance();
     stoppingCondition.notifyStarted();
     std::vector<int>order;
     std::vector<int>* solution= nullptr;
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<double> distribution(0.0, 1.0);
     int minCross = -1;
     int steps = 0;
-    double t=0.01;
+    float t=0.01;
     if(graph != nullptr) {
         int n1 = graph->getN1();
         order = generateRandomStart(n1);
@@ -84,7 +80,7 @@ Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph) {
             ++steps;
             order = pickRandomNeighbor(cur.first);
             int crossing = graph->count(order);
-            if(acceptanceProbability(cur.second,crossing,t) > distribution(gen)){
+            if(random.randOutcome(acceptanceProbability(cur.second,crossing,t))){
                 if(crossing < minCross){
                     minCross = crossing;
                     delete solution;

@@ -1,17 +1,17 @@
 #include "algorithms/random_search.h"
 
 #include <algorithm>
-#include <random>
 #include <vector>
 
-#include<iostream>
-
-#include<chrono>
+#include <iostream>
+#include <utils/utility.h>
+#include <utils/random.h>
+#include <chrono>
 
  std::vector<int> RandomSearchAlgorithm::generateRandomOrdering(int n1){
-    std::vector<int>v;
-    for(int i=0;i<n1;++i) v.push_back(i);
-    std::shuffle(v.begin(),v.end(), std::mt19937(std::random_device()()));
+    Random& random = Random::getInstance();
+    std::vector<int> v = generateVector(n1);
+    random.shuffle(v);
     return v;
 }
 

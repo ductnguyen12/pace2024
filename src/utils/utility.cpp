@@ -45,6 +45,12 @@ std::list<int> generateList(int size) {
     return result;
 }
 
+std::vector<int> generateVector(int size) {
+    std::vector<int> result;
+    for (int i = 0; i < size; i++) result.push_back(i);
+    return result;
+}
+
 int min(int a, int b) {
     return a < b ? a : b;
 }

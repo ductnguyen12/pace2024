@@ -15,14 +15,12 @@ set(SOURCES
     src/graph/bipartite_graph.cpp
     src/algorithms/brute_force.cpp
     src/algorithms/genetic_algorithm.cpp
+    src/algorithms/random_search.cpp
+    src/algorithms/simulated_annealing.cpp
     src/utils/utility.cpp
     src/utils/argument.cpp
     src/utils/random.cpp
     src/stopping_conditions/time_stopping_condition.cpp
-        include/algorithms/random_search.h
-        include/algorithms/simulated_annealing.h
-        src/algorithms/random_search.cpp
-        src/algorithms/simulated_annealing.cpp
 )
 
 # Set DEBUG_MODE definition

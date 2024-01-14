@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <list>
+#include <vector>
 
 /**
  * @brief Function for swapping the values of the two integeres
@@ -16,6 +17,7 @@ template <class Container>
 Container extract(Container const& container, std::pair<int, int> const& locations);
 
 std::list<int> generateList(int size);
+std::vector<int> generateVector(int size);
 
 int min(int a, int b);
 int max(int a, int b);

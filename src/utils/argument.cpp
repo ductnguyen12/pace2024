@@ -4,6 +4,7 @@
 #include <utils/argument.h>
 #include <algorithms/brute_force.h>
 #include <algorithms/genetic_algorithm.h>
+#include <algorithms/simulated_annealing.h>
 
 ProgramArgument *ProgramArgument::instance = nullptr;
 
@@ -57,7 +58,8 @@ std::string ProgramArgument::getInput() const {
 
 Algorithm* ProgramArgument::getAlgorithm(StoppingCondition &stoppingCondition) const {
     std::string name = program->get<std::string>("--algorithm");
-    if (name ==  "GA") return new GeneticAlgorithm(stoppingCondition);
+    if (name == "SA") return new SimulatedAnnealing(stoppingCondition);
+    else if (name ==  "GA") return new GeneticAlgorithm(stoppingCondition);
     else if (name == "BF") return new BruteForceAlgorithm(stoppingCondition);
     return nullptr;
 }
