@@ -10,8 +10,9 @@ bool TimeStoppingCondition::canContinue() {
 
 void TimeStoppingCondition::notifyStarted() {
     startTime = std::chrono::steady_clock::now();
+    std::cout << "Started at: " << startTime.time_since_epoch().count() << std::endl;
 }
 
 void TimeStoppingCondition::notifyIterated() { 
-    
+
 }
