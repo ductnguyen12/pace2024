@@ -17,8 +17,9 @@ int main(int argc, char** args) {
     Algorithm *algorithm = argument->getAlgorithm(stoppingCondition);
     if (problem != nullptr && algorithm != nullptr) {
         Solution solution = problem->findSolution(*algorithm);
+        int n0 = problem->getGraph().getN0();
         std::cout << "Min crossing: " << solution.minCrossing << "\nOrder: ";
-        if (solution.order != nullptr) for (int i : *(solution.order)) std::cout << i + 1 << " ";
+        if (solution.order != nullptr) for (int i : *(solution.order)) std::cout << i + 1 + n0 << " ";
         std::cout << std::endl;
     }
     delete problem;
