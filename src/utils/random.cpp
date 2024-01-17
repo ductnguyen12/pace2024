@@ -3,13 +3,13 @@
 #include <list>
 #include <vector>
 
-uint* Random::seed = nullptr;
+size_t* Random::seed = nullptr;
 Random* Random::instance = nullptr;
 
 Random::Random() {
     std::random_device rd;
     if (seed == nullptr) {
-        seed = new uint(std::chrono::system_clock::now().time_since_epoch().count());
+        seed = new size_t(std::chrono::system_clock::now().time_since_epoch().count());
     }
     generator = std::mt19937(*seed);
 }
@@ -19,17 +19,17 @@ Random& Random::getInstance() {
     return instance;
 }
 
-bool Random::setSeed(uint seed) {
+bool Random::setSeed(size_t seed) {
     if (Random::seed == nullptr) {
-        Random::seed = new uint(seed);
+        Random::seed = new size_t(seed);
         return true;
     }
     return false;
 }
 
-uint Random::getSeed() {
+size_t Random::getSeed() {
     if (seed == nullptr) {
-        seed = new uint(std::chrono::system_clock::now().time_since_epoch().count());
+        seed = new size_t(std::chrono::system_clock::now().time_since_epoch().count());
     }
     return *seed;
 }
