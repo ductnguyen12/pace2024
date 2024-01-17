@@ -8,6 +8,7 @@
 #include <argparse/argparse.hpp>
 #include <algorithms/brute_force.h>
 #include <algorithms/genetic_algorithm.h>
+#include <memory>
 
 class ProgramArgument {
 private:
