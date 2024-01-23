@@ -3,6 +3,7 @@
 #include <list>
 #include <iostream>
 #include <utils/random.h>
+#include <map>
 
 void swap(int &a, int &b)
 {
@@ -62,4 +63,48 @@ int max(int a, int b) {
 int constraint(int value, int left, int right) {
     if (right < left) swap(left, right);
     return min(max(value, left), right);
+}
+
+std::vector<int> applyMediumHeuristic(BipartiteGraph *graph){
+    std::vector<int>order;
+    if(graph!=NULL){
+        int n1 = graph ->getN1();
+        std::vector<std::vector<int>> adj = graph -> getVs1();
+        std::map<int,std::vector<int>> m;
+
+        for(int i=0;i<n1;++i){
+            int md = adj[i].size()/2;
+            m[i].push_back(md);
+        }
+        for(auto u:m){
+            for(auto v:u.second){
+                order.push_back(v);
+            }
+        }
+    }
+    return order;
+}
+
+std::vector<int> applyBarycentricHeuristic(BipartiteGraph *graph){
+    std::vector<int>order;
+    if(graph!=NULL){
+        int n1 = graph ->getN1();
+        std::vector<std::vector<int>> adj = graph -> getVs1();
+        std::map<int,std::vector<int>> m;
+
+        for(int i=0;i<n1;++i){
+            int sum = 0;
+            for(auto u:adj[i]){
+                sum+=u;
+            }
+            int barycenter = sum / adj[i].size();
+            m[i].push_back(barycenter);
+        }
+        for(auto u:m){
+            for(auto v:u.second){
+                order.push_back(v);
+            }
+        }
+    }
+    return order;
 }

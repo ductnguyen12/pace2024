@@ -71,7 +71,9 @@ Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph) {
     float t=0.01;
     if(graph != nullptr) {
         int n1 = graph->getN1();
-        order = generateRandomStart(n1);
+        order = applyMediumHeuristic(graph);
+        //order = generateRandomStart(n1);
+        //order = applyBarycentricHeuristic(graph);
         minCross = graph->count(order);
         solution = new std::vector(order);
         std::pair<std::vector<int>,int> cur = std::make_pair(order,minCross);
