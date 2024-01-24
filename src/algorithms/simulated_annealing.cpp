@@ -17,15 +17,18 @@ std::vector<int> SimulatedAnnealing::generateRandomStart(int n1) {
     return v;
 }
 
-std::vector<int> SimulatedAnnealing::pickRandomNeighbor(std::vector<int> &v) {
+std::vector<int> SimulatedAnnealing::pickRandomNeighbor(std::vector<int> &v,double t) {
     Random& random = Random::getInstance();
     int n1 = v.size();
-
+    double coef = t / 0.01;
     int newIndex,oldIndex;
     newIndex = oldIndex = 0;
     while(newIndex == oldIndex){
         oldIndex = random.getInt(0, n1);
-        int randomJump = random.getInt(-(n1 - 1), n1);
+        int randomJump = random.getInt(0, ceil(n1 * coef)) + 1;
+        int val = random.getInt(0,2) ;
+        val == 0 ? randomJump*=-1 : randomJump*=1;
+        //std::cout<<randomJump<<' ';
         newIndex = oldIndex + randomJump;
         if(newIndex < 0) newIndex = 0;
         if(newIndex > n1-1) newIndex = n1-1;
@@ -68,19 +71,20 @@ Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph) {
     std::vector<int>* solution= nullptr;
     int minCross = -1;
     int steps = 0;
-    float t=0.01;
+    double t=0.01;
+    double coef = 0.01;
     if(graph != nullptr) {
         int n1 = graph->getN1();
-        order = applyMediumHeuristic(graph);
+        //order = applyMediumHeuristic(graph);
         //order = generateRandomStart(n1);
-        //order = applyBarycentricHeuristic(graph);
+        order = applyBarycentricHeuristic(graph);
         minCross = graph->count(order);
         solution = new std::vector(order);
         std::pair<std::vector<int>,int> cur = std::make_pair(order,minCross);
         while(stoppingCondition.canContinue()){
             stoppingCondition.notifyIterated();
             ++steps;
-            order = pickRandomNeighbor(cur.first);
+            order = pickRandomNeighbor(cur.first,coef);
             int crossing = graph->count(order);
             if(random.randOutcome(acceptanceProbability(cur.second,crossing,t))){
                 if(crossing < minCross){
@@ -91,6 +95,7 @@ Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph) {
                 cur = std::make_pair(order,crossing);
             }
             t = t / (1.0 + std::log(1.0 + steps));
+            coef = coef * 0.9992;
         }
     }
 

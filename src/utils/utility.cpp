@@ -74,7 +74,7 @@ std::vector<int> applyMediumHeuristic(BipartiteGraph *graph){
 
         for(int i=0;i<n1;++i){
             int md = adj[i].size()/2;
-            m[i].push_back(md);
+            m[md].push_back(i);
         }
         for(auto u:m){
             for(auto v:u.second){
@@ -98,7 +98,7 @@ std::vector<int> applyBarycentricHeuristic(BipartiteGraph *graph){
                 sum+=u;
             }
             int barycenter = sum / adj[i].size();
-            m[i].push_back(barycenter);
+            m[barycenter].push_back(i);
         }
         for(auto u:m){
             for(auto v:u.second){
