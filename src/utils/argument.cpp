@@ -6,6 +6,9 @@
 #include <algorithms/genetic_algorithm.h>
 #include <algorithms/simulated_annealing.h>
 #include <algorithms/random_search.h>
+#include <stopping_conditions/combined_stopping_condition.h>
+#include <stopping_conditions/time_stopping_condition.h>
+#include <stopping_conditions/iteration_stopping_condition.h>
 
 ProgramArgument *ProgramArgument::instance = nullptr;
 
@@ -21,7 +24,7 @@ ProgramArgument *ProgramArgument::getInstance(const std::string &programName) {
 }
 
 void ProgramArgument::parseArguments(int argc, char **args) const {
-    program->add_argument("-i", "--input")
+    program->add_argument("-f", "--file")
         .required()
         .help("input file to be read.");
     program->add_argument("-a", "--algorithm")
@@ -31,12 +34,12 @@ void ProgramArgument::parseArguments(int argc, char **args) const {
         .help("The algorithm to run. "
                 "Either Simulated Annealing ('SA'), Genetic Algorithm ('GA'), or Brute Force ('BF').");
     program->add_argument("-t", "--time")
-        .default_value("1000")
+        .default_value("-1")
         .help("The maximum runtime (in milli-seconds) for the algorithm "
                 "per repetition before the search is stopped.");
-    // program->add_argument("-z", "--size")
-    //         .default_value(20)
-    //         .help("The population size 𝑧 > 1 to be used for genetic algorithms");
+    program->add_argument("-i", "--iterations")
+        .default_value("-1")
+        .help("The maximum number of iterrators an algorithm would try to iterate.");
 
     try {
         program->parse_args(argc, args);
@@ -53,8 +56,8 @@ void ProgramArgument::parseArguments(int argc, char **args) const {
     }
 }
 
-std::string ProgramArgument::getInput() const {
-    return program->get<std::string>("--input");
+std::string ProgramArgument::getFile() const {
+    return program->get<std::string>("--file");
 }
 
 Algorithm* ProgramArgument::getAlgorithm(StoppingCondition &stoppingCondition) const {
@@ -66,8 +69,17 @@ Algorithm* ProgramArgument::getAlgorithm(StoppingCondition &stoppingCondition) c
     return nullptr;
 }
 
-int ProgramArgument::getMaxTime() const {
-    return std::stoi(program->get<std::string>("--time"));
+StoppingCondition* ProgramArgument::getStoppingCondition() const {
+    CombinedStoppingCondition* combined = new CombinedStoppingCondition();
+    int time = std::stoi(program->get<std::string>("--time"));
+    if (time >= 0) {
+        combined->addCondition(new TimeStoppingCondition(time));
+    }
+    int iterations = std::stoi(program->get<std::string>("--iterations"));
+    if (iterations >= 0) {
+        combined->addCondition(new IterationStoppingCondition(iterations));
+    }
+    return combined;
 }
 
 unsigned int ProgramArgument::getPopulationSize() const {

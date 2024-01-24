@@ -21,6 +21,8 @@ set(SOURCES
     src/utils/argument.cpp
     src/utils/random.cpp
     src/stopping_conditions/time_stopping_condition.cpp
+    src/stopping_conditions/iteration_stopping_condition.cpp
+    src/stopping_conditions/combined_stopping_condition.cpp
 )
 
 # Set DEBUG_MODE definition

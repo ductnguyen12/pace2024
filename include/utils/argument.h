@@ -26,11 +26,11 @@ public:
 
     void parseArguments(int argc, char **args) const;
 
-    [[nodiscard]] std::string getInput() const;
+    [[nodiscard]] std::string getFile() const;
 
     [[nodiscard]] Algorithm* getAlgorithm(StoppingCondition &stoppingCondition) const;
 
-    [[nodiscard]] int getMaxTime() const;
+    [[nodiscard]] StoppingCondition* getStoppingCondition() const;
 
     [[nodiscard]] unsigned int getPopulationSize() const;
 };
