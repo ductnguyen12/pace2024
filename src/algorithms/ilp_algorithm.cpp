@@ -6,15 +6,16 @@
 #include <gurobi_c++.h>
 #include <algorithm>
 #include <stopping_conditions/time_stopping_condition.h>
+#include <chrono>
 
-ILPAlgorithm::ILPAlgorithm(StoppingCondition &stoppingCondition) : Algorithm(stoppingCondition) {
+ILPAlgorithm::ILPAlgorithm() : Algorithm() { }
+
+Solution ILPAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition* stoppingCondition) {
+    std::chrono::microseconds const* duration = nullptr;
     auto *timeStoppingCondition = dynamic_cast<TimeStoppingCondition *>(&stoppingCondition);
     if (timeStoppingCondition != nullptr) {
         duration = &timeStoppingCondition->getDuration();
     }
-}
-
-Solution ILPAlgorithm::findSolution(BipartiteGraph *graph) {
     // Crossing matrix
     auto c = graph->computeCrossingMatrix();
     // Order matrix

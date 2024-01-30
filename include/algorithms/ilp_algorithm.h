@@ -9,12 +9,10 @@
 #include <algorithms/algorithm.h>
 
 class ILPAlgorithm : public Algorithm {
-private:
-    std::chrono::microseconds const* duration = nullptr;
 public:
-    ILPAlgorithm(StoppingCondition &stoppingCondition);
+    ILPAlgorithm();
 
-    Solution findSolution(BipartiteGraph *graph) override;
+    Solution findSolution(BipartiteGraph *graph, StoppingCondition *stoppingCondition) override;
 };
 
 
