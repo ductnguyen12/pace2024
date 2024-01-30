@@ -22,7 +22,7 @@ done
 
 if [ "$debug_flag" == "1" ]; then
     echo "DEBUG MODE enabled"
-    cmake -DCMAKE_BUILD_TYPE=Debug ..
+    cmake -DCMAKE_BUILD_TYPE=DebugMode ..
 else
     echo "DEBUG MODE disabled"
     cmake -DCMAKE_BUILD_TYPE=Release ..

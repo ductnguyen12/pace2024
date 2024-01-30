@@ -26,7 +26,7 @@ set(SOURCES
 )
 
 # Set DEBUG_MODE definition
-if(CMAKE_BUILD_TYPE MATCHES "Debug")
+if(CMAKE_BUILD_TYPE MATCHES "DebugMode")
     add_compile_definitions(DEBUG_MODE)
 endif()
 

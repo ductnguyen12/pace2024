@@ -40,9 +40,6 @@ Solution GeneticAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition
         auto sort = [&population]() { std::sort(population.begin(), population.end(), crossingComparator); };
         sort();
         while (stoppingCondition->canContinue()) {
-#ifdef DEBUG_MODE
-            std::cout << stoppingCondition->getProgress()*100 << "%" << std::endl;
-#endif
             for (int i = 0; i < populationSize && stoppingCondition->canContinue(); i++) {
                 stoppingCondition->notifyIterated();
                 if (random.randOutcome(mutationRatio)) {
