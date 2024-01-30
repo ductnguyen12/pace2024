@@ -15,3 +15,7 @@ void TimeStoppingCondition::notifyStarted() {
 void TimeStoppingCondition::notifyIterated() { 
 
 }
+
+std::chrono::microseconds const& TimeStoppingCondition::getDuration() const {
+    return duration;
+}

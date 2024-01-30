@@ -40,7 +40,7 @@ public:
     */
     template <class Container>
     int count(Container const& order) const;
-
+    [[nodiscard]] const std::vector<std::vector<int>>& computeCrossingMatrix() const;
 };
 
 #endif

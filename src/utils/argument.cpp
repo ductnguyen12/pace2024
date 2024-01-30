@@ -5,6 +5,7 @@
 #include <algorithms/brute_force.h>
 #include <algorithms/genetic_algorithm.h>
 #include <algorithms/simulated_annealing.h>
+#include <algorithms/ilp_algorithm.h>
 
 ProgramArgument *ProgramArgument::instance = nullptr;
 
@@ -26,9 +27,10 @@ void ProgramArgument::parseArguments(int argc, char **args) const {
     program->add_argument("-a", "--algorithm")
         .required()
         .default_value("BF")
-        .choices("SA", "GA", "BF")
+        .choices("SA", "GA", "BF", "ILP")
         .help("The algorithm to run. "
-                "Either Simulated Annealing ('SA'), Genetic Algorithm ('GA'), or Brute Force ('BF').");
+                "Either Simulated Annealing ('SA'), Genetic Algorithm ('GA'), "
+                "Brute Force ('BF'), or Integer Linear Programming ('ILP').");
     program->add_argument("-t", "--time")
         .default_value("1000")
         .help("The maximum runtime (in milli-seconds) for the algorithm "
@@ -61,6 +63,7 @@ Algorithm* ProgramArgument::getAlgorithm(StoppingCondition &stoppingCondition) c
     if (name == "SA") return new SimulatedAnnealing(stoppingCondition);
     else if (name ==  "GA") return new GeneticAlgorithm(stoppingCondition);
     else if (name == "BF") return new BruteForceAlgorithm(stoppingCondition);
+    else if (name == "ILP") return new ILPAlgorithm(stoppingCondition);
     return nullptr;
 }
 
