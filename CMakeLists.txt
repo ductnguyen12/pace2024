@@ -17,13 +17,13 @@ set(SOURCES
     src/algorithms/genetic_algorithm.cpp
     src/algorithms/random_search.cpp
     src/algorithms/simulated_annealing.cpp
+    src/algorithms/ilp_algorithm.cpp
     src/utils/utility.cpp
     src/utils/argument.cpp
     src/utils/random.cpp
     src/stopping_conditions/time_stopping_condition.cpp
     src/stopping_conditions/iteration_stopping_condition.cpp
     src/stopping_conditions/combined_stopping_condition.cpp
-    src/algorithms/ilp_algorithm.cpp
 )
 
 # Set DEBUG_MODE definition

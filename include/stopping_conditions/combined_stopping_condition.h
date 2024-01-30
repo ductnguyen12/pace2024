@@ -3,6 +3,7 @@
 
 #include <initializer_list>
 #include <stopping_conditions/stopping_condition.h>
+#include <stopping_conditions/time_stopping_condition.h>
 #include <vector>
 
 class CombinedStoppingCondition : public StoppingCondition {
@@ -18,6 +19,8 @@ public:
     void addCondition(StoppingCondition* stoppingCondition);
     float getProgress() override;
     ~CombinedStoppingCondition();
+
+    operator TimeStoppingCondition*() const;
 };
 
 #endif
