@@ -40,6 +40,9 @@ void ProgramArgument::parseArguments(int argc, char **args) const {
     program->add_argument("-i", "--iterations")
         .default_value("-1")
         .help("The maximum number of iterrators an algorithm would try to iterate.");
+    program->add_argument("-s", "--size")
+        .default_value("100")
+        .help("Population size for heuristic algorithms");
 
     try {
         program->parse_args(argc, args);
@@ -60,12 +63,14 @@ std::string ProgramArgument::getFile() const {
     return program->get<std::string>("--file");
 }
 
-Algorithm* ProgramArgument::getAlgorithm(StoppingCondition &stoppingCondition) const {
+Algorithm* ProgramArgument::getAlgorithm() const {
     std::string name = program->get<std::string>("--algorithm");
-    if (name == "SA") return new SimulatedAnnealing(stoppingCondition);
-    else if (name ==  "GA") return new GeneticAlgorithm(stoppingCondition);
-    else if (name == "BF") return new BruteForceAlgorithm(stoppingCondition);
-    else if (name == "RS") return new RandomSearchAlgorithm(stoppingCondition);
+    if (name == "SA") return new SimulatedAnnealing();
+    else if (name ==  "GA") {
+        return new GeneticAlgorithm(getPopulationSize());
+    }
+    else if (name == "BF") return new BruteForceAlgorithm();
+    else if (name == "RS") return new RandomSearchAlgorithm();
     return nullptr;
 }
 
@@ -82,8 +87,8 @@ StoppingCondition* ProgramArgument::getStoppingCondition() const {
     return combined;
 }
 
-unsigned int ProgramArgument::getPopulationSize() const {
-    return program->get<unsigned int>("--size");
+int ProgramArgument::getPopulationSize() const {
+    return std::stoi(program->get<std::string>("--size"));
 }
 
 ProgramArgument::~ProgramArgument() = default;

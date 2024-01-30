@@ -14,8 +14,8 @@ Problem::Problem(int n0, int n1, std::vector<std::vector<int>> const& v1, int* c
 
 }
 
-Solution Problem::findSolution(Algorithm &algorithm) {
-    return algorithm.findSolution(&graph);
+Solution Problem::findSolution(Algorithm* algorithm, StoppingCondition* stoppingCondition) {
+    return algorithm->findSolution(&graph, stoppingCondition);
 }
 
 void Parser::tokenize(std::string const& filepath) {

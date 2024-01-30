@@ -31,6 +31,17 @@ void CombinedStoppingCondition::addCondition(StoppingCondition* stoppingConditio
     stoppingConditions.push_back(stoppingCondition);
 }
 
+float CombinedStoppingCondition::getProgress() {
+    float finalProgress = 0;
+    for (StoppingCondition* stoppingConditions : stoppingConditions) {
+        float newProgress = stoppingConditions->getProgress();
+        if (newProgress > finalProgress) {
+            finalProgress = newProgress;
+        }
+    }
+    return finalProgress;
+}
+
 CombinedStoppingCondition::~CombinedStoppingCondition() {
     for (StoppingCondition* stoppingCondition : stoppingConditions) {
         delete stoppingCondition;

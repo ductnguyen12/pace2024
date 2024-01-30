@@ -8,7 +8,7 @@
 #include <cmath>
 #include <chrono>
 
-SimulatedAnnealing::SimulatedAnnealing(StoppingCondition &stoppingCondition) : Algorithm(stoppingCondition){}
+SimulatedAnnealing::SimulatedAnnealing() {}
 
 std::vector<int> SimulatedAnnealing::generateRandomStart(int n1) {
     Random& random = Random::getInstance();
@@ -61,9 +61,9 @@ float SimulatedAnnealing::acceptanceProbability(int oldFitness, int curFitness, 
 }
 
 
-Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph) {
+Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph, StoppingCondition* stoppingCondition) {
     Random& random = Random::getInstance();
-    stoppingCondition.notifyStarted();
+    stoppingCondition->notifyStarted();
     std::vector<int>order;
     std::vector<int>* solution= nullptr;
     int minCross = -1;
@@ -75,8 +75,8 @@ Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph) {
         minCross = graph->count(order);
         solution = new std::vector(order);
         std::pair<std::vector<int>,int> cur = std::make_pair(order,minCross);
-        while(stoppingCondition.canContinue()){
-            stoppingCondition.notifyIterated();
+        while(stoppingCondition->canContinue()){
+            stoppingCondition->notifyIterated();
             ++steps;
             order = pickRandomNeighbor(cur.first);
             int crossing = graph->count(order);

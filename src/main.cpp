@@ -14,9 +14,9 @@ int main(int argc, char** args) {
     Parser parser;
     Problem* problem = parser.parseProblem(argument->getFile());
     StoppingCondition* stoppingCondition = argument->getStoppingCondition();
-    Algorithm *algorithm = argument->getAlgorithm(*stoppingCondition);
+    Algorithm *algorithm = argument->getAlgorithm();
     if (problem != nullptr && algorithm != nullptr) {
-        Solution solution = problem->findSolution(*algorithm);
+        Solution solution = problem->findSolution(algorithm, stoppingCondition);
         int n0 = problem->getGraph().getN0();
         std::cout << "Min crossing: " << solution.minCrossing << "\nOrder: ";
         if (solution.order != nullptr) for (int i : *(solution.order)) std::cout << i + 1 + n0 << " ";

@@ -15,10 +15,10 @@
     return v;
 }
 
-RandomSearchAlgorithm::RandomSearchAlgorithm(StoppingCondition &stoppingCondition): Algorithm(stoppingCondition) {}
+RandomSearchAlgorithm::RandomSearchAlgorithm() {}
 
-Solution RandomSearchAlgorithm::findSolution(BipartiteGraph *graph) {
-    stoppingCondition.notifyStarted();
+Solution RandomSearchAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition* stoppingCondition) {
+    stoppingCondition->notifyStarted();
     std::vector<int>order;
     std::vector<int>* solution= nullptr;
     int minCross = -1;
@@ -27,8 +27,8 @@ Solution RandomSearchAlgorithm::findSolution(BipartiteGraph *graph) {
         order = generateRandomOrdering(n1);
         minCross = graph->count(order);
         solution = new std::vector<int>(order);
-        while(stoppingCondition.canContinue()){
-            stoppingCondition.notifyIterated();
+        while(stoppingCondition->canContinue()){
+            stoppingCondition->notifyIterated();
             order = generateRandomOrdering(n1);
             int crossing = graph->count(order);
             if(crossing < minCross){

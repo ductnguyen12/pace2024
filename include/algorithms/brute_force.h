@@ -10,7 +10,7 @@ class BruteForceAlgorithm : public Algorithm {
 private:
     static bool next(std::vector<int> &v);
 public:
-    BruteForceAlgorithm(StoppingCondition& stoppingCondition);
+    BruteForceAlgorithm();
 
     /**
      * @brief Finds the minimal crossing edges by trying all permutations of orders of the
@@ -20,7 +20,7 @@ public:
      * @note If there are no solution (`stoppingCondition.stoppingCondition` is false) 
      * then the `Solution::minCrossing` is -1 and `Solution::order` is `nullptr`.
     */
-    Solution findSolution(BipartiteGraph *graph) override;
+    Solution findSolution(BipartiteGraph *graph, StoppingCondition* stoppingCondition) override;
 };
 
 #endif

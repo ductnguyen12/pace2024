@@ -28,11 +28,11 @@ public:
 
     [[nodiscard]] std::string getFile() const;
 
-    [[nodiscard]] Algorithm* getAlgorithm(StoppingCondition &stoppingCondition) const;
+    [[nodiscard]] Algorithm* getAlgorithm() const;
 
     [[nodiscard]] StoppingCondition* getStoppingCondition() const;
 
-    [[nodiscard]] unsigned int getPopulationSize() const;
+    [[nodiscard]] int getPopulationSize() const;
 };
 
 #endif //ARGUMENTS_H

@@ -16,6 +16,7 @@ public:
     void notifyStarted() override;
     void notifyIterated() override;
     void addCondition(StoppingCondition* stoppingCondition);
+    float getProgress() override;
     ~CombinedStoppingCondition();
 };
 

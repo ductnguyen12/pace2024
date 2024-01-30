@@ -2,8 +2,11 @@
 #include <utils/utility.h>
 #include <utils/random.h>
 #include <algorithm>
+#ifdef DEBUG_MODE 
+#include <iostream>
+#endif
 
-GeneticAlgorithm::GeneticAlgorithm(StoppingCondition& stoppingCondition, int populationSize, double mutationRatio) : Algorithm(stoppingCondition), populationSize(populationSize), mutationRatio(mutationRatio){
+GeneticAlgorithm::GeneticAlgorithm(int populationSize, double mutationRatio) : populationSize(populationSize), mutationRatio(mutationRatio){
     
 }
 
@@ -23,8 +26,8 @@ auto crossingComparator = [](auto const& a, auto const& b) {
     return a.second < b.second;
 };
 
-Solution GeneticAlgorithm::findSolution(BipartiteGraph *graph) {
-    stoppingCondition.notifyStarted();
+Solution GeneticAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition* stoppingCondition) {
+    stoppingCondition->notifyStarted();
     int minCrossing = -1;
     std::vector<int> *order = nullptr;
     if (graph != nullptr) {
@@ -36,9 +39,12 @@ Solution GeneticAlgorithm::findSolution(BipartiteGraph *graph) {
         }
         auto sort = [&population]() { std::sort(population.begin(), population.end(), crossingComparator); };
         sort();
-        while (stoppingCondition.canContinue()) {
-            for (int i = 0; i < populationSize && stoppingCondition.canContinue(); i++) {
-                stoppingCondition.notifyIterated();
+        while (stoppingCondition->canContinue()) {
+#ifdef DEBUG_MODE
+            std::cout << stoppingCondition->getProgress()*100 << "%" << std::endl;
+#endif
+            for (int i = 0; i < populationSize && stoppingCondition->canContinue(); i++) {
+                stoppingCondition->notifyIterated();
                 if (random.randOutcome(mutationRatio)) {
                     std::list<int> mutant(population[i].first);
                     random.shuffle(mutant);

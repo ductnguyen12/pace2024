@@ -15,3 +15,8 @@ void TimeStoppingCondition::notifyStarted() {
 void TimeStoppingCondition::notifyIterated() { 
 
 }
+
+float TimeStoppingCondition::getProgress() {
+    
+    return 0;
+}

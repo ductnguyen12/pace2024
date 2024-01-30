@@ -15,3 +15,7 @@ void IterationStoppingCondition::notifyStarted() {
 void IterationStoppingCondition::notifyIterated() {
     count += 1;
 }
+
+float IterationStoppingCondition::getProgress() {
+    return (float) count / max;
+}
