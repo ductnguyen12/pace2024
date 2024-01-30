@@ -6,6 +6,7 @@ public:
     virtual bool canContinue() = 0;
     virtual void notifyStarted() { };
     virtual void notifyIterated() { };
+    virtual float getProgress() = 0;
 };
 
 /**

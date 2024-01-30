@@ -7,9 +7,8 @@
 
 class Algorithm {
 protected:
-    StoppingCondition& stoppingCondition;
 public:
-    Algorithm(StoppingCondition& stoppingCondition) : stoppingCondition(stoppingCondition) {};
+    Algorithm() {};
 
     /**
      * @brief Finds and returns a solution
@@ -18,15 +17,7 @@ public:
      * to search for and return a solution based on specific algorithms. Also, remember to call
      * `stoppingCondition.notifySearch()` to initialize the stopping condition properly.
     */
-    virtual Solution findSolution(BipartiteGraph *graph) = 0;
-
-    /**
-     * @brief Checks if the algorithm can continue based on the stopping condition
-     * @return true if the algorithm can continue
-    */
-    bool canContinue() const {
-        return stoppingCondition.canContinue();
-    }
+    virtual Solution findSolution(BipartiteGraph *graph, StoppingCondition* stoppingCondition) = 0;
 };
 
 #endif

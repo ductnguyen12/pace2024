@@ -8,6 +8,7 @@
 #include <argparse/argparse.hpp>
 #include <algorithms/brute_force.h>
 #include <algorithms/genetic_algorithm.h>
+#include <memory>
 
 class ProgramArgument {
 private:
@@ -25,13 +26,13 @@ public:
 
     void parseArguments(int argc, char **args) const;
 
-    [[nodiscard]] std::string getInput() const;
+    [[nodiscard]] std::string getFile() const;
 
-    [[nodiscard]] Algorithm* getAlgorithm(StoppingCondition &stoppingCondition) const;
+    [[nodiscard]] Algorithm* getAlgorithm() const;
 
-    [[nodiscard]] int getMaxTime() const;
+    [[nodiscard]] StoppingCondition* getStoppingCondition() const;
 
-    [[nodiscard]] unsigned int getPopulationSize() const;
+    [[nodiscard]] int getPopulationSize() const;
 };
 
 #endif //ARGUMENTS_H

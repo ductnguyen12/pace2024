@@ -15,3 +15,9 @@ void TimeStoppingCondition::notifyStarted() {
 void TimeStoppingCondition::notifyIterated() { 
 
 }
+
+float TimeStoppingCondition::getProgress() {
+    using namespace std::chrono;
+    microseconds ellapsed = duration_cast<microseconds>(steady_clock::now() - startTime);
+    return static_cast<double>(ellapsed.count()) / duration.count();
+}

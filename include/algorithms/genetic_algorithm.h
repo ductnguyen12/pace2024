@@ -14,8 +14,8 @@ private:
     static std::pair<int, int> mutate(std::list<int>& list);
 
 public:
-    GeneticAlgorithm(StoppingCondition& stoppingCondition, int populationSize=50, double mutationRatio=0.1);
+    GeneticAlgorithm(int populationSize=50, double mutationRatio=0.1);
 
-    Solution findSolution(BipartiteGraph *graph) override;
+    Solution findSolution(BipartiteGraph *graph, StoppingCondition* stoppingCondition) override;
 };
 #endif

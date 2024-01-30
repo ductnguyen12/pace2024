@@ -6,6 +6,14 @@
 #include <algorithm>
 #include <stdexcept>
 
+#ifdef DEBUG_MODE
+
+#include <thread>
+#include <chrono>
+#include <cstdio>
+
+#endif
+
 bool isNumber(std::string const& value) {
     return !value.empty() && std::all_of(value.begin(), value.end(),  ::isdigit);
 }
@@ -14,8 +22,36 @@ Problem::Problem(int n0, int n1, std::vector<std::vector<int>> const& v1, int* c
 
 }
 
-Solution Problem::findSolution(Algorithm &algorithm) {
-    return algorithm.findSolution(&graph);
+#ifdef DEBUG_MODE
+
+bool canContinue;
+int sleepTime;
+StoppingCondition* shared;
+
+void printProgress() {
+
+    while (canContinue) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+        std::fprintf(stdout, "Progress: %8.4f%%\n", shared->getProgress() * 100);        
+    }
+}
+
+#endif
+
+Solution Problem::findSolution(Algorithm* algorithm, StoppingCondition* stoppingCondition) {
+#ifdef DEBUG_MODE
+    canContinue = true;
+    sleepTime = 500; //milliseconds
+    shared = stoppingCondition;
+    std::thread progressThread(printProgress);
+#endif
+    Solution solution = algorithm->findSolution(&graph, stoppingCondition);
+#ifdef DEBUG_MODE
+    canContinue = false;
+    progressThread.join();
+    std::cout<<std::endl;
+#endif
+    return solution;
 }
 
 void Parser::tokenize(std::string const& filepath) {

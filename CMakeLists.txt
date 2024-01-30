@@ -21,10 +21,12 @@ set(SOURCES
     src/utils/argument.cpp
     src/utils/random.cpp
     src/stopping_conditions/time_stopping_condition.cpp
+    src/stopping_conditions/iteration_stopping_condition.cpp
+    src/stopping_conditions/combined_stopping_condition.cpp
 )
 
 # Set DEBUG_MODE definition
-if(CMAKE_BUILD_TYPE MATCHES "Debug")
+if(CMAKE_BUILD_TYPE MATCHES "DebugMode")
     add_compile_definitions(DEBUG_MODE)
 endif()
 

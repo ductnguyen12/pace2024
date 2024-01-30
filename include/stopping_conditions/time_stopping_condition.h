@@ -13,6 +13,7 @@ public:
     bool canContinue() override;
     void notifyStarted() override;
     void notifyIterated() override;
+    float getProgress() override;
 };
 
 #endif
