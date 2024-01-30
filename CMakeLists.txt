@@ -23,12 +23,15 @@ set(SOURCES
     src/stopping_conditions/time_stopping_condition.cpp
     src/stopping_conditions/iteration_stopping_condition.cpp
     src/stopping_conditions/combined_stopping_condition.cpp
+    src/algorithms/ilp_algorithm.cpp
 )
 
 # Set DEBUG_MODE definition
 if(CMAKE_BUILD_TYPE MATCHES "DebugMode")
     add_compile_definitions(DEBUG_MODE)
 endif()
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 # Include directories
 include_directories(include/)
@@ -37,6 +40,9 @@ include_directories(include/)
 add_executable(mincrossing ${SOURCES})
 
 # Dependencies
+find_package(GUROBI REQUIRED)
+
+include_directories(${GUROBI_INCLUDE_DIRS})
 include(FetchContent)
 
 # fetch latest argparse
@@ -46,4 +52,9 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(argparse)
 
-target_link_libraries(mincrossing argparse)
+target_link_libraries(mincrossing
+        argparse
+        optimized ${GUROBI_CXX_LIBRARY}
+        debug ${GUROBI_CXX_DEBUG_LIBRARY}
+        ${GUROBI_LIBRARY}
+)

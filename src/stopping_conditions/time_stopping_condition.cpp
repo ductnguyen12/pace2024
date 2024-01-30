@@ -21,3 +21,7 @@ float TimeStoppingCondition::getProgress() {
     microseconds ellapsed = duration_cast<microseconds>(steady_clock::now() - startTime);
     return static_cast<double>(ellapsed.count()) / duration.count();
 }
+
+std::chrono::microseconds const& TimeStoppingCondition::getDuration() const {
+    return duration;
+}

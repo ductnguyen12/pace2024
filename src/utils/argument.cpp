@@ -9,6 +9,7 @@
 #include <stopping_conditions/combined_stopping_condition.h>
 #include <stopping_conditions/time_stopping_condition.h>
 #include <stopping_conditions/iteration_stopping_condition.h>
+#include <algorithms/ilp_algorithm.h>
 
 ProgramArgument *ProgramArgument::instance = nullptr;
 
@@ -30,9 +31,10 @@ void ProgramArgument::parseArguments(int argc, char **args) const {
     program->add_argument("-a", "--algorithm")
         .required()
         .default_value("BF")
-        .choices("SA", "GA", "BF", "RS")
+        .choices("SA", "GA", "BF", "RS", "ILP")
         .help("The algorithm to run. "
-                "Either Simulated Annealing ('SA'), Genetic Algorithm ('GA'), or Brute Force ('BF').");
+                "Either Simulated Annealing ('SA'), Genetic Algorithm ('GA'), "
+                "Brute Force ('BF'), or Integer Linear Programming ('ILP').");
     program->add_argument("-t", "--time")
         .default_value("-1")
         .help("The maximum runtime (in milli-seconds) for the algorithm "
@@ -71,6 +73,7 @@ Algorithm* ProgramArgument::getAlgorithm() const {
     }
     else if (name == "BF") return new BruteForceAlgorithm();
     else if (name == "RS") return new RandomSearchAlgorithm();
+    else if (name == "ILP") return new ILPAlgorithm();
     return nullptr;
 }
 

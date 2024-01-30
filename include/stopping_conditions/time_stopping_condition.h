@@ -14,6 +14,7 @@ public:
     void notifyStarted() override;
     void notifyIterated() override;
     float getProgress() override;
+    [[nodiscard]] std::chrono::microseconds const& getDuration() const;
 };
 
 #endif
