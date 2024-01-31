@@ -55,4 +55,8 @@ CombinedStoppingCondition::operator TimeStoppingCondition*() const {
         if (result != nullptr) break;
     }
     return result;
+}
+
+std::vector<StoppingCondition *> CombinedStoppingCondition::getConditions() const {
+    return stoppingConditions;
 };

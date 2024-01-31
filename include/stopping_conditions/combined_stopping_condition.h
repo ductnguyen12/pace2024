@@ -18,6 +18,7 @@ public:
     void notifyIterated() override;
     void addCondition(StoppingCondition* stoppingCondition);
     float getProgress() override;
+    [[nodiscard]] std::vector<StoppingCondition*> getConditions() const;
     ~CombinedStoppingCondition();
 
     operator TimeStoppingCondition*() const;
