@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <stopping_conditions/time_stopping_condition.h>
 #include <chrono>
+#include <stopping_conditions/combined_stopping_condition.h>
 
 ILPAlgorithm::ILPAlgorithm() : Algorithm() { }
 
@@ -15,6 +16,17 @@ Solution ILPAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition* st
     auto *timeStoppingCondition = dynamic_cast<TimeStoppingCondition*>(stoppingCondition);
     if (timeStoppingCondition != nullptr) {
         duration = &timeStoppingCondition->getDuration();
+    } else {
+        auto *combinedStoppingCondition = dynamic_cast<CombinedStoppingCondition *>(stoppingCondition);
+        if (combinedStoppingCondition != nullptr) {
+            for (StoppingCondition *condition: combinedStoppingCondition->getConditions()) {
+                timeStoppingCondition = dynamic_cast<TimeStoppingCondition *>(condition);
+                if (timeStoppingCondition != nullptr) {
+                    duration = &timeStoppingCondition->getDuration();
+                    break;
+                }
+            }
+        }
     }
     // Crossing matrix
     auto c = graph->computeCrossingMatrix();
