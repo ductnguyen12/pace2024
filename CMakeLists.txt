@@ -25,25 +25,36 @@ set(SOURCES
     src/stopping_conditions/combined_stopping_condition.cpp
 )
 
+set(GENERATE_SOURCES
+    src/generate.cpp
+    src/utils/random.cpp
+)
+
 # Set DEBUG_MODE definition
 if(CMAKE_BUILD_TYPE MATCHES "DebugMode")
     add_compile_definitions(DEBUG_MODE)
 endif()
 
+
 # Include directories
 include_directories(include/)
 
 # Add executable
-add_executable(mincrossing ${SOURCES})
+if(CMAKE_BUILD_TYPE MATCHES "GenerateMode")
+    add_executable(generate ${GENERATE_SOURCES})
+else()
+    add_executable(mincrossing ${SOURCES})
 
-# Dependencies
-include(FetchContent)
-
-# fetch latest argparse
-FetchContent_Declare(
-    argparse
-    GIT_REPOSITORY https://github.com/p-ranav/argparse.git
-)
-FetchContent_MakeAvailable(argparse)
-
-target_link_libraries(mincrossing argparse)
+    # Dependencies
+    include(FetchContent)
+    
+    # fetch latest argparse
+    FetchContent_Declare(
+        argparse
+        GIT_REPOSITORY https://github.com/p-ranav/argparse.git
+    )
+    FetchContent_MakeAvailable(argparse)
+    
+    target_link_libraries(mincrossing argparse)
+    
+endif()
