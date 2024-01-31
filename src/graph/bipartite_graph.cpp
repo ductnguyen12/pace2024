@@ -56,3 +56,18 @@ int BipartiteGraph::__count(std::vector<int> const& v1, std::vector<int> const& 
     }
     return result;
 }
+
+const std::vector<std::vector<int>> &BipartiteGraph::computeCrossingMatrix() const {
+    auto* matrix = new std::vector<std::vector<int>>();
+    for (int i = 0; i < n1; i++) {
+        matrix->emplace_back();
+        for (int j = 0; j < n1; j++) {
+            if (i == j) {
+                matrix->at(i).push_back(0);
+                continue;
+            }
+            matrix->at(i).push_back(__count(vs1[i], vs1[j]));
+        }
+    }
+    return *matrix;
+}

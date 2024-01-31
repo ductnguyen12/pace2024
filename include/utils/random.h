@@ -12,7 +12,7 @@ private:
     Random();
     Random(const Random&) = delete;
     Random& operator=(const Random&) = delete;
-    static uint* seed;
+    static size_t* seed;
     static Random* instance;
     std::mt19937 generator;
 public:
@@ -21,8 +21,8 @@ public:
      * If none is provided, the seed is initialized to the current time.
     */
     static Random& getInstance();
-    static bool setSeed(uint seed);
-    static uint getSeed();
+    static bool setSeed(size_t seed);
+    static size_t getSeed();
 
     /**
      * @brief Get a random integer from the given range

@@ -47,3 +47,16 @@ CombinedStoppingCondition::~CombinedStoppingCondition() {
         delete stoppingCondition;
     }
 }
+
+CombinedStoppingCondition::operator TimeStoppingCondition*() const {
+    TimeStoppingCondition* result = nullptr;
+    for (StoppingCondition* stoppingCondition : stoppingConditions) {
+        result = static_cast<TimeStoppingCondition*>(stoppingCondition);
+        if (result != nullptr) break;
+    }
+    return result;
+}
+
+std::vector<StoppingCondition *> CombinedStoppingCondition::getConditions() const {
+    return stoppingConditions;
+};
