@@ -12,7 +12,7 @@ ILPAlgorithm::ILPAlgorithm() : Algorithm() { }
 
 Solution ILPAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition* stoppingCondition) {
     std::chrono::microseconds const* duration = nullptr;
-    auto *timeStoppingCondition = static_cast<TimeStoppingCondition *>(&stoppingCondition);
+    auto *timeStoppingCondition = dynamic_cast<TimeStoppingCondition*>(stoppingCondition);
     if (timeStoppingCondition != nullptr) {
         duration = &timeStoppingCondition->getDuration();
     }
