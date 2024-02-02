@@ -72,11 +72,11 @@ const std::vector<std::vector<int>> &BipartiteGraph::computeCrossingMatrix() con
     return *matrix;
 }
 
-long long BipartiteGraph::calculateLowerBound(BipartiteGraph *graph) const {
+long long BipartiteGraph::calculateMinimumCrossingLowerBound() const {
     long long sum = 0;
     for (int i = 0, n1 = n0; i < n1; i++) {
-        for (int j = i + 1, j < n1; j++) {
-            sum += std::min(__count(vs1.at(i), vs1.at(j)), __count(vs.at(j), vs.at(i)));
+        for (int j = i + 1; j < n1; j++) {
+            sum += std::min(__count(vs1.at(i), vs1.at(j)), __count(vs1.at(j), vs1.at(i)));
         }
     }
     return sum;

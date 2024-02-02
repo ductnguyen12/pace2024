@@ -45,6 +45,9 @@ void ProgramArgument::parseArguments(int argc, char **args) const {
     program->add_argument("-s", "--size")
         .default_value("100")
         .help("Population size for heuristic algorithms");
+    program->add_argument("-r", "--repetitions")
+        .default_value("1")
+        .help("The repetitions number");
 
     try {
         program->parse_args(argc, args);
@@ -92,6 +95,10 @@ StoppingCondition* ProgramArgument::getStoppingCondition() const {
 
 int ProgramArgument::getPopulationSize() const {
     return std::stoi(program->get<std::string>("--size"));
+}
+
+int ProgramArgument::getRepetition() const {
+    return std::stoi(program->get<std::string>("--repetitions"));
 }
 
 ProgramArgument::~ProgramArgument() = default;

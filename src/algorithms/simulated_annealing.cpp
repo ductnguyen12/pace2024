@@ -10,17 +10,15 @@
 
 SimulatedAnnealing::SimulatedAnnealing() {}
 
-std::vector<int> SimulatedAnnealing::generateRandomStart(int n1) {
-    Random& random = Random::getInstance();
-    std::vector<int> v = generateVector(n1);
-    random.shuffle(v);
-    return v;
-}
 
 std::vector<int> SimulatedAnnealing::pickRandomNeighbor(std::vector<int> &v, StoppingCondition* stoppingCondition) {
     Random& random = Random::getInstance();
     int n1 = v.size();
     double coef = 1;
+#ifdef JUMP
+#pragma message("Jump")
+    coef -= stoppingCondition->getProgress();
+#endif
     int newIndex,oldIndex;
     newIndex = oldIndex = 0;
     while(newIndex == oldIndex){
@@ -75,10 +73,17 @@ Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph, StoppingConditi
     int steps = 0;
     double t=0.01;
     if(graph != nullptr) {
-        int n1 = graph->getN1();
-        //order = applyMediumHeuristic(graph);
-        // order = generateRandomStart(n1);
+#if defined(BARY) || defined(JUMP)
+#pragma message("Bary or Jump")
         order = applyBarycentricHeuristic(graph);
+#elif defined(MEDIUM)
+#pragma message("Medium")
+        order = applyMediumHeuristic(graph);
+#else 
+#pragma message("Random")
+        order = applyRandom(graph);
+#endif
+        
         minCross = graph->count(order);
         solution = new std::vector(order);
         std::pair<std::vector<int>,int> cur = std::make_pair(order,minCross);

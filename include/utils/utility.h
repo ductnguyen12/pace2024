@@ -26,5 +26,6 @@ int constraint(int value, int left, int right);
 
 std::vector<int> applyMediumHeuristic(BipartiteGraph *graph);
 std::vector<int> applyBarycentricHeuristic(BipartiteGraph *graph);
+std::vector<int> applyRandom(BipartiteGraph *graph);
 
 #endif

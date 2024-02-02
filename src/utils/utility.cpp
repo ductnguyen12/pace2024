@@ -112,3 +112,10 @@ std::vector<int> applyBarycentricHeuristic(BipartiteGraph *graph){
     }
     return order;
 }
+
+std::vector<int> applyRandom(BipartiteGraph* graph) {
+    Random& random = Random::getInstance();
+    std::vector<int> v = generateVector(graph->getN1());
+    random.shuffle(v);
+    return v;
+}
