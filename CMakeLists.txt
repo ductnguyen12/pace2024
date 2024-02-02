@@ -47,8 +47,14 @@ if(CMAKE_BUILD_TYPE MATCHES "GenerateMode")
     add_executable(generate ${GENERATE_SOURCES})
 else()
     add_executable(mincrossing ${SOURCES})
+end()
 
 # Dependencies
+message(STATUS "GUROBI_INCLUDE_DIRS: ${GUROBI_INCLUDE_DIRS}")
+message(STATUS "GUROBI_LIBRARY: ${GUROBI_LIBRARY}")
+message(STATUS "GUROBI_CXX_LIBRARY: ${GUROBI_CXX_LIBRARY}")
+message(STATUS "GUROBI_CXX_DEBUG_LIBRARY: ${GUROBI_CXX_DEBUG_LIBRARY}")
+
 include(FetchContent)
 
 # fetch latest argparse
