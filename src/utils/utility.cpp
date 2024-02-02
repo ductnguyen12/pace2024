@@ -67,7 +67,7 @@ int constraint(int value, int left, int right) {
 
 std::vector<int> applyMediumHeuristic(BipartiteGraph *graph){
     std::vector<int>order;
-    if(graph!=NULL){
+    if(graph!= nullptr){
         int n1 = graph ->getN1();
         std::vector<std::vector<int>> adj = graph -> getVs1();
         std::map<int,std::vector<int>> m;
@@ -87,7 +87,7 @@ std::vector<int> applyMediumHeuristic(BipartiteGraph *graph){
 
 std::vector<int> applyBarycentricHeuristic(BipartiteGraph *graph){
     std::vector<int>order;
-    if(graph!=NULL){
+    if(graph!= nullptr){
         int n1 = graph ->getN1();
         std::vector<std::vector<int>> adj = graph -> getVs1();
         std::map<int,std::vector<int>> m;
@@ -97,8 +97,12 @@ std::vector<int> applyBarycentricHeuristic(BipartiteGraph *graph){
             for(auto u:adj[i]){
                 sum+=u;
             }
-            int barycenter = sum / adj[i].size();
-            m[barycenter].push_back(i);
+            if(sum == 0){
+                m[0].push_back(i);
+            }else{
+                int barycenter = sum / adj[i].size();
+                m[barycenter].push_back(i);
+            };
         }
         for(auto u:m){
             for(auto v:u.second){

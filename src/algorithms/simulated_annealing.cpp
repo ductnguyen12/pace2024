@@ -17,10 +17,10 @@ std::vector<int> SimulatedAnnealing::generateRandomStart(int n1) {
     return v;
 }
 
-std::vector<int> SimulatedAnnealing::pickRandomNeighbor(std::vector<int> &v,double t) {
+std::vector<int> SimulatedAnnealing::pickRandomNeighbor(std::vector<int> &v, StoppingCondition* stoppingCondition) {
     Random& random = Random::getInstance();
     int n1 = v.size();
-    double coef = t / 0.01;
+    double coef = 1;
     int newIndex,oldIndex;
     newIndex = oldIndex = 0;
     while(newIndex == oldIndex){
@@ -28,7 +28,9 @@ std::vector<int> SimulatedAnnealing::pickRandomNeighbor(std::vector<int> &v,doub
         int randomJump = random.getInt(0, ceil(n1 * coef)) + 1;
         int val = random.getInt(0,2) ;
         val == 0 ? randomJump*=-1 : randomJump*=1;
-        //std::cout<<randomJump<<' ';
+#ifdef DEBUG_MODE
+        std::cout<<randomJump<<' ';
+#endif
         newIndex = oldIndex + randomJump;
         if(newIndex < 0) newIndex = 0;
         if(newIndex > n1-1) newIndex = n1-1;
@@ -72,11 +74,10 @@ Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph, StoppingConditi
     int minCross = -1;
     int steps = 0;
     double t=0.01;
-    double coef = 0.01;
     if(graph != nullptr) {
         int n1 = graph->getN1();
         //order = applyMediumHeuristic(graph);
-        //order = generateRandomStart(n1);
+        // order = generateRandomStart(n1);
         order = applyBarycentricHeuristic(graph);
         minCross = graph->count(order);
         solution = new std::vector(order);
@@ -84,7 +85,7 @@ Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph, StoppingConditi
         while(stoppingCondition->canContinue()){
             stoppingCondition->notifyIterated();
             ++steps;
-            order = pickRandomNeighbor(cur.first,coef);
+            order = pickRandomNeighbor(cur.first, stoppingCondition);
             int crossing = graph->count(order);
             if(random.randOutcome(acceptanceProbability(cur.second,crossing,t))){
                 if(crossing < minCross){
@@ -95,10 +96,10 @@ Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph, StoppingConditi
                 cur = std::make_pair(order,crossing);
             }
             t = t / (1.0 + std::log(1.0 + steps));
-            coef = coef * 0.9992;
         }
     }
-
+#ifdef DEBUG_MODE
     std::cout << "Finished at: " << std::chrono::steady_clock::now().time_since_epoch().count() << std::endl;
+#endif
     return {minCross,solution};
 }

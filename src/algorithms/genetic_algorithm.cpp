@@ -33,7 +33,11 @@ Solution GeneticAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition
     if (graph != nullptr) {
         Random& random = Random::getInstance();
         std::vector<std::pair<std::list<int>, int>> population;
-        for (int i = 0; i < populationSize; i++) {
+        std::vector<int> first_vector = applyBarycentricHeuristic(graph);
+        std::list<int> first;
+        std::copy(first_vector.begin(), first_vector.end(), std::back_inserter(first));
+        population.emplace_back(std::move(first), graph->count(first));
+        for (int i = 1; i < populationSize; i++) {
             std::list<int> order = generateList(graph->getN1());
             population.emplace_back(std::move(order), graph->count(order));
         }
