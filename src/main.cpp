@@ -31,6 +31,8 @@ int main(int argc, char** args) {
     std::cout << "Max: " << max << std::endl;
     std::cout << "Average: " << (double) sum / record.size() << std::endl;
     std::cout << "Min: " << min << std::endl;
+    const BipartiteGraph& graph = problem->getGraph();
+    std::cout << "Lower bound: " << graph.calculateMinimumCrossingLowerBound() << std::endl;
     delete problem;
     delete algorithm;
     return 1;
