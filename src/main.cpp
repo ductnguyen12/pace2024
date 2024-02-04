@@ -26,8 +26,22 @@ int main(int argc, char** args) {
             if (min == -1 || solution.minCrossing < min) min = solution.minCrossing;
             if (max == -1 || solution.minCrossing > max) max = solution.minCrossing;
             record.push_back(solution.minCrossing);
+            std::cout << "Repetition: " << record.size() << std::endl;
         }
     }
+    // Using a loop to concatenate strings with a delimiter
+    std::string delimiter = ",";
+    std::string result;
+
+    for (size_t i = 0; i < record.size(); ++i) {
+        result += std::to_string(record[i]);
+
+        // Add the delimiter except for the last element
+        if (i < record.size() - 1) {
+            result += delimiter;
+        }
+    }
+    std::cout << result << std::endl;
     std::cout << "Max: " << max << std::endl;
     std::cout << "Average: " << (double) sum / record.size() << std::endl;
     std::cout << "Min: " << min << std::endl;
