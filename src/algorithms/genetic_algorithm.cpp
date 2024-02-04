@@ -2,8 +2,8 @@
 #include <utils/utility.h>
 #include <utils/random.h>
 #include <algorithm>
-#ifdef DEBUG_MODE 
 #include <iostream>
+#ifdef DEBUG_MODE 
 #endif
 
 GeneticAlgorithm::GeneticAlgorithm(int populationSize, double mutationRatio) : populationSize(populationSize), mutationRatio(mutationRatio){
@@ -43,8 +43,10 @@ Solution GeneticAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition
         std::list<int> first;
         std::copy(first_vector.begin(), first_vector.end(), std::back_inserter(first));
         population.emplace_back(std::move(first), graph->count(first));
-        for (int i = 1; i < populationSize; i++) {
-            std::list<int> order = generateList(graph->getN1());
+        for (int i = 1; i < populationSize && stoppingCondition->canContinue(); i++) {
+            std::vector<int> randomOrder = applyRandom(graph);
+            std::list<int> order;
+            std::copy(randomOrder.begin(), randomOrder.end(), std::back_inserter(order));
             population.emplace_back(std::move(order), graph->count(order));
         }
         auto sort = [&population]() { std::sort(population.begin(), population.end(), crossingComparator); };
