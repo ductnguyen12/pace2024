@@ -9,7 +9,9 @@
 #include <stopping_conditions/combined_stopping_condition.h>
 #include <stopping_conditions/time_stopping_condition.h>
 #include <stopping_conditions/iteration_stopping_condition.h>
+#if defined(GUROBI_REQUIRED)
 #include <algorithms/ilp_algorithm.h>
+#endif
 
 ProgramArgument *ProgramArgument::instance = nullptr;
 
@@ -76,7 +78,9 @@ Algorithm* ProgramArgument::getAlgorithm() const {
     }
     else if (name == "BF") return new BruteForceAlgorithm();
     else if (name == "RS") return new RandomSearchAlgorithm();
+#if defined(GUROBI_REQUIRED)
     else if (name == "ILP") return new ILPAlgorithm();
+#endif
     return nullptr;
 }
 

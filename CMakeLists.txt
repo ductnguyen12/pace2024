@@ -21,6 +21,7 @@ if(CMAKE_BUILD_TYPE MATCHES "GenerateMode")
     add_executable(generate ${SOURCES})
 else()
     # Set sources
+    if (NO_ILP)
     set(SOURCES
         src/main.cpp
         src/problems/problem.cpp
@@ -29,7 +30,6 @@ else()
         src/algorithms/genetic_algorithm.cpp
         src/algorithms/random_search.cpp
         src/algorithms/simulated_annealing.cpp
-        src/algorithms/ilp_algorithm.cpp
         src/utils/utility.cpp
         src/utils/argument.cpp
         src/utils/random.cpp
@@ -37,17 +37,40 @@ else()
         src/stopping_conditions/iteration_stopping_condition.cpp
         src/stopping_conditions/combined_stopping_condition.cpp
     )
+    else()
+        set(SOURCES
+            src/main.cpp
+            src/problems/problem.cpp
+            src/graph/bipartite_graph.cpp
+            src/algorithms/brute_force.cpp
+            src/algorithms/genetic_algorithm.cpp
+            src/algorithms/random_search.cpp
+            src/algorithms/simulated_annealing.cpp
+            src/algorithms/ilp_algorithm.cpp
+            src/utils/utility.cpp
+            src/utils/argument.cpp
+            src/utils/random.cpp
+            src/stopping_conditions/time_stopping_condition.cpp
+            src/stopping_conditions/iteration_stopping_condition.cpp
+            src/stopping_conditions/combined_stopping_condition.cpp
+        )
+    endif()
+    
 
     # Set DEBUG_MODE definition
-    if(CMAKE_BUILD_TYPE MATCHES "DebugMode")
+    if(DEBUG_MODE)
         add_compile_definitions(DEBUG_MODE)
-    elseif(CMAKE_BUILD_TYPE MATCHES "BaryMode")
+    endif()
+    if(BARY_MODE)
         add_compile_definitions(BARY)
-    elseif(CMAKE_BUILD_TYPE MATCHES "JumpMode")
+    endif()
+    if(JUMP_MODE)
         add_compile_definitions(JUMP)
-    elseif(CMAKE_BUILD_TYPE MATCHES "MediumMode")
+    endif()
+    if(MEDIUM_MODE)
         add_compile_definitions(MEDIUM)
-    else()
+    endif()
+    if (RANDOM_MODE)
         add_compile_definitions(RANDOM)
     endif()
 
@@ -57,9 +80,14 @@ else()
     add_executable(mincrossing ${SOURCES})
 
     # Dependencies
-    find_package(GUROBI REQUIRED)
+    if(NO_ILP)
+        message("Skip ILP")
+    else()
+        add_compile_definitions(GUROBI_REQUIRED)
+        find_package(GUROBI REQUIRED)
+        include_directories(${GUROBI_INCLUDE_DIRS})
+    endif()
 
-    include_directories(${GUROBI_INCLUDE_DIRS})
     include(FetchContent)
 
     # fetch latest argparse
@@ -68,11 +96,17 @@ else()
         GIT_REPOSITORY https://github.com/p-ranav/argparse.git
     )
     FetchContent_MakeAvailable(argparse)
-
-    target_link_libraries(mincrossing
+    if(NO_ILP)
+        message("Skip ILP Libraries")
+        target_link_libraries(mincrossing
             argparse
-            optimized ${GUROBI_CXX_LIBRARY}
-            debug ${GUROBI_CXX_DEBUG_LIBRARY}
-            ${GUROBI_LIBRARY}
-    )
+        )
+    else()
+        target_link_libraries(mincrossing
+                argparse
+                optimized ${GUROBI_CXX_LIBRARY}
+                debug ${GUROBI_CXX_DEBUG_LIBRARY}
+                ${GUROBI_LIBRARY}
+        )
+    endif()
 endif()

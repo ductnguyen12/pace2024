@@ -22,6 +22,10 @@ Problem::Problem(int n0, int n1, std::vector<std::vector<int>> const& v1, int* c
 
 }
 
+BipartiteGraph& Problem::getGraph() {
+    return graph;
+}
+
 #ifdef DEBUG_MODE
 
 bool canContinue;

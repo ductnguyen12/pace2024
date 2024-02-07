@@ -14,7 +14,7 @@ private:
     BipartiteGraph graph;
     int *cw, *ord;
 public:
-    const BipartiteGraph& getGraph() const { return graph; }
+    BipartiteGraph& getGraph();
     Problem(int n0, int n1, std::vector<std::vector<int>> const& v1, int* cw, int* ord);
     Solution findSolution(Algorithm* algorithm, StoppingCondition* stoppingCondition);
 };

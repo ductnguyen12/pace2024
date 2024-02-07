@@ -65,7 +65,15 @@ int constraint(int value, int left, int right) {
     return min(max(value, left), right);
 }
 
-std::vector<int> applyMediumHeuristic(BipartiteGraph *graph){
+template <class Container>
+int fastReplace(BipartiteGraph& graph, std::pair<int, int>& range, Container oldOrder, Container newOrder, int lastCount) {
+    return lastCount - graph.count(extract(oldOrder, range)) + graph.count(extract(newOrder, range));
+}
+template int fastReplace(BipartiteGraph& graph, std::pair<int, int>& range, std::vector<int> oldOrder, std::vector<int> newOrder, int lastCount);
+template int fastReplace(BipartiteGraph& graph, std::pair<int, int>& range, std::list<int> oldOrder, std::list<int> newOrder, int lastCount);
+
+
+std::vector<int> applyMedianHeuristic(BipartiteGraph *graph){
     std::vector<int>order;
     if(graph!= nullptr){
         int n1 = graph ->getN1();

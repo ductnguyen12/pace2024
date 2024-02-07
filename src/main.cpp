@@ -8,6 +8,7 @@
 #include <stopping_conditions/time_stopping_condition.h>
 #include <algorithms/genetic_algorithm.h>
 #include <vector>
+#include <iomanip>
 #include <numeric>
 
 int main(int argc, char** args) {
@@ -43,9 +44,9 @@ int main(int argc, char** args) {
     }
     std::cout << result << std::endl;
     std::cout << "Max: " << max << std::endl;
-    std::cout << "Average: " << (double) sum / record.size() << std::endl;
+    std::cout << "Average: " << std::fixed << std::setprecision(2) << (double) sum / record.size() << std::endl;
     std::cout << "Min: " << min << std::endl;
-    const BipartiteGraph& graph = problem->getGraph();
+    BipartiteGraph& graph = problem->getGraph();
     std::cout << "Lower bound: " << graph.calculateMinimumCrossingLowerBound() << std::endl;
     delete problem;
     delete algorithm;

@@ -4,8 +4,9 @@ cd build
 debug_flag=0
 generate_flag=0
 bary_flag=0
-medium_flag=0
+median_flag=0
 jump_flag=0
+no_ilp_flag=0
 gurubi_lib="/opt/gurobi1100/linux64/"
 
 while [[ $# -gt 0 ]]; do
@@ -20,10 +21,13 @@ while [[ $# -gt 0 ]]; do
             bary_flag=1
             ;;
         -m)
-            medium_flag=1
+            median_flag=1
             ;;
         -j)
             jump_flag=1
+            ;;
+        -x)
+            no_ilp_flag=1
             ;;
         *)
             echo "Unknown option: $1"
@@ -33,25 +37,48 @@ while [[ $# -gt 0 ]]; do
     shift
 done
 
+build_command="cmake -DGUROBI_DIR=$gurubi_lib"
 if [ "$debug_flag" == "1" ]; then
     echo "DEBUG MODE enabled"
-    cmake -DGUROBI_DIR=$gurubi_lib -DCMAKE_BUILD_TYPE=DebugMode ..
-elif [ "$generate_flag" == "1" ]; then
-    echo "GENERATE MODE enabled"
-    cmake -DCMAKE_BUILD_TYPE=GenerateMode ..
-elif [ "$bary_flag" == "1" ]; then
-    echo "BARY MODE enabled"
-    cmake -DGUROBI_DIR=$gurubi_lib -DCMAKE_BUILD_TYPE=BaryMode ..
-elif [ "$jump_flag" == "1" ]; then
-    echo "JUMP MODE enabled"
-    cmake -DGUROBI_DIR=$gurubi_lib -DCMAKE_BUILD_TYPE=JumpMode ..
-elif [ "$medium_flag" == "1" ]; then
-    echo "MEDIUM MODE enabled"
-    cmake -DGUROBI_DIR=$gurubi_lib -DCMAKE_BUILD_TYPE=MediumMode ..
-else
-    echo "RANDOM MODE disabled"
-    cmake -DGUROBI_DIR=$gurubi_lib -DCMAKE_BUILD_TYPE=RandomMode ..
+    build_command+=" -DDEBUG_MODE=ON"
+    # cmake -DGUROBI_DIR=$gurubi_lib -DCMAKE_BUILD_TYPE=DebugMode ..
 fi
+if [ "$generate_flag" == "1" ]; then
+    echo "GENERATE MODE enabled"
+    build_command+=" -DGENERATE_MODE=ON"
+    # cmake -DCMAKE_BUILD_TYPE=GenerateMode ..
+fi
+if [ "$bary_flag" == "1" ]; then
+    echo "BARY MODE enabled"
+    build_command+=" -DBARY_MODE=ON"
+    # cmake -DCMAKE_BUILD_TYPE=BaryMode ..
+elif [ "$median_flag" == "1" ]; then
+    echo "MEDIUM MODE enabled"
+    build_command+=" -DMEDIAN_MODE=ON"
+    # cmake -DCMAKE_BUILD_TYPE=MediumMode ..
+else
+    echo "RANDOM MODE enabled"
+    build_command+=" -DRANDOM_MODE=ON"
+    # cmake -DCMAKE_BUILD_TYPE=RandomMode ..
+fi
+if [ "$jump_flag" == "1" ]; then
+    echo "JUMP MODE enabled"
+    build_command+=" -DJUMP_MODE=ON"
+    # cmake  -DCMAKE_BUILD_TYPE=JumpMode ..
+fi
+if [ "$no_ilp_flag" == "1" ]; then
+    echo "NO ILP BUILT!"
+    build_command+=" -DNO_ILP=ON"
+else 
+    echo "ILP Implemented"
+    build_command+=" -DGUROBI_DIR=$gurubi_lib"
+fi
+
+build_command+=" .."
+
+echo "Final build command: $build_command";
+
+eval "$build_command";
 
 cmake --build .
 cd ..

@@ -15,7 +15,7 @@ std::vector<int> SimulatedAnnealing::pickRandomNeighbor(std::vector<int> &v, Sto
     Random& random = Random::getInstance();
     int n1 = v.size();
     double coef = 1;
-#ifdef JUMP
+#if defined(JUMP)
 #pragma message("Jump")
     coef -= stoppingCondition->getProgress();
 #endif

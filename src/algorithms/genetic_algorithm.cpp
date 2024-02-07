@@ -33,7 +33,7 @@ Solution GeneticAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition
     if (graph != nullptr) {
         Random& random = Random::getInstance();
         std::vector<std::pair<std::list<int>, int>> population;
-#if defined(BARY) || defined(JUMP)
+#if defined(BARY)
         std::vector<int> first_vector = applyBarycentricHeuristic(graph);
 #elif defined(MEDIUM)
         std::vector<int> first_vector = applyMediumHeuristic(graph);
@@ -56,8 +56,9 @@ Solution GeneticAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition
                 stoppingCondition->notifyIterated();
                 if (random.randOutcome(mutationRatio)) {
                     std::list<int> mutant(population[i].first);
-                    random.shuffle(mutant);
-                    population.push_back(std::make_pair(mutant, graph->count(mutant)));
+                    std::pair<int, int> range = mutate(mutant);
+                    int newCount = fastReplace(*graph, range, population[i].first, mutant, population[i].second);
+                    population.push_back(std::make_pair(mutant, newCount));
                 }
             }
             sort();
