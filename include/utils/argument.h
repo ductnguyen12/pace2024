@@ -29,6 +29,7 @@ public:
     [[nodiscard]] std::string getFile() const;
 
     [[nodiscard]] Algorithm* getAlgorithm() const;
+    [[nodiscard]] int getRepetition() const;
 
     [[nodiscard]] StoppingCondition* getStoppingCondition() const;
 

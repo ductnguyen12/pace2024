@@ -9,7 +9,9 @@
 #include <stopping_conditions/combined_stopping_condition.h>
 #include <stopping_conditions/time_stopping_condition.h>
 #include <stopping_conditions/iteration_stopping_condition.h>
+#if defined(GUROBI_REQUIRED)
 #include <algorithms/ilp_algorithm.h>
+#endif
 
 ProgramArgument *ProgramArgument::instance = nullptr;
 
@@ -45,6 +47,9 @@ void ProgramArgument::parseArguments(int argc, char **args) const {
     program->add_argument("-s", "--size")
         .default_value("100")
         .help("Population size for heuristic algorithms");
+    program->add_argument("-r", "--repetitions")
+        .default_value("1")
+        .help("The repetitions number");
 
     try {
         program->parse_args(argc, args);
@@ -73,7 +78,9 @@ Algorithm* ProgramArgument::getAlgorithm() const {
     }
     else if (name == "BF") return new BruteForceAlgorithm();
     else if (name == "RS") return new RandomSearchAlgorithm();
+#if defined(GUROBI_REQUIRED)
     else if (name == "ILP") return new ILPAlgorithm();
+#endif
     return nullptr;
 }
 
@@ -92,6 +99,10 @@ StoppingCondition* ProgramArgument::getStoppingCondition() const {
 
 int ProgramArgument::getPopulationSize() const {
     return std::stoi(program->get<std::string>("--size"));
+}
+
+int ProgramArgument::getRepetition() const {
+    return std::stoi(program->get<std::string>("--repetitions"));
 }
 
 ProgramArgument::~ProgramArgument() = default;

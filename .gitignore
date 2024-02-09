@@ -43,3 +43,7 @@ mincrossing
 cmake_install.cmake
 CMakeCache.txt
 cmake-build-*
+
+#generated
+/examples/generated/
+statistics/*

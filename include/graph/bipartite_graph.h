@@ -22,6 +22,7 @@ private:
      * @return the number of crossing edges
     */
     static int __count(std::vector<int> const& v1, std::vector<int> const& v2);
+    std::vector<std::vector<int>> cache;
 public:
     BipartiteGraph(int n0, int n1, const std::vector<std::vector<int>>& vs1);
     ~BipartiteGraph();
@@ -39,8 +40,10 @@ public:
      * @return the number of crossing edges
     */
     template <class Container>
-    int count(Container const& order) const;
-    [[nodiscard]] const std::vector<std::vector<int>>& computeCrossingMatrix() const;
+    int count(Container const& order);
+    int count(int i1, int i2);
+    [[nodiscard]] const std::vector<std::vector<int>>& computeCrossingMatrix();
+    long long calculateMinimumCrossingLowerBound();
 };
 
 #endif

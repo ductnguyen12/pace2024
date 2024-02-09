@@ -24,7 +24,13 @@ int min(int a, int b);
 int max(int a, int b);
 int constraint(int value, int left, int right);
 
-std::vector<int> applyMediumHeuristic(BipartiteGraph *graph);
+template <typename Container>
+int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, Container oldOrder, Container newOrder);
+
+int shiftPartialOrder(BipartiteGraph& graph, std::vector<int>::iterator begin, std::vector<int>::iterator end, bool right);
+
+std::vector<int> applyMedianHeuristic(BipartiteGraph *graph);
 std::vector<int> applyBarycentricHeuristic(BipartiteGraph *graph);
+std::vector<int> getRandomOrder(BipartiteGraph *graph);
 
 #endif

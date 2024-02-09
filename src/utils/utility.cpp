@@ -3,6 +3,7 @@
 #include <list>
 #include <iostream>
 #include <utils/random.h>
+#include <algorithm>
 #include <map>
 
 void swap(int &a, int &b)
@@ -65,9 +66,39 @@ int constraint(int value, int left, int right) {
     return min(max(value, left), right);
 }
 
-std::vector<int> applyMediumHeuristic(BipartiteGraph *graph){
+template <typename Container>
+int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, Container oldOrder, Container newOrder) {
+    if (oldOrder.size() != newOrder.size()) throw new std::invalid_argument("Old order and new order must have the same length");
+    return graph.count(extract(oldOrder, range)) - graph.count(extract(newOrder, range));
+}
+template int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, std::vector<int> oldOrder, std::vector<int> newOrder);
+template int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, std::list<int> oldOrder, std::list<int> newOrder);
+
+int shiftPartialOrder(BipartiteGraph& graph, std::vector<int>::iterator begin, std::vector<int>::iterator end, bool right) {
+    if (begin == end) {
+        return 0;
+    }
+    else if (begin > end) {
+        std::vector<int>::iterator temp = begin;
+        begin = end;
+        end = temp;
+        right ^= true;
+    }
+    int result = 0;
+    if (right) {
+        for (std::vector<int>::iterator it = begin; it < end; it++) result += graph.count(*it, *end) - graph.count(*end, *it);
+        std::rotate(begin, end, end + 1);
+    }
+    else {
+        for (std::vector<int>::iterator it = std::next(begin); it <= end; it++) result += graph.count(*begin, *it)  - graph.count(*it, *begin);
+        std::rotate(begin, begin + 1, end + 1);
+    }
+    return result;    
+}
+
+std::vector<int> applyMedianHeuristic(BipartiteGraph *graph){
     std::vector<int>order;
-    if(graph!=NULL){
+    if(graph!= nullptr){
         int n1 = graph ->getN1();
         std::vector<std::vector<int>> adj = graph -> getVs1();
         std::map<int,std::vector<int>> m;
@@ -87,7 +118,7 @@ std::vector<int> applyMediumHeuristic(BipartiteGraph *graph){
 
 std::vector<int> applyBarycentricHeuristic(BipartiteGraph *graph){
     std::vector<int>order;
-    if(graph!=NULL){
+    if(graph!= nullptr){
         int n1 = graph ->getN1();
         std::vector<std::vector<int>> adj = graph -> getVs1();
         std::map<int,std::vector<int>> m;
@@ -97,8 +128,12 @@ std::vector<int> applyBarycentricHeuristic(BipartiteGraph *graph){
             for(auto u:adj[i]){
                 sum+=u;
             }
-            int barycenter = sum / adj[i].size();
-            m[barycenter].push_back(i);
+            if(sum == 0){
+                m[0].push_back(i);
+            }else{
+                int barycenter = sum / adj[i].size();
+                m[barycenter].push_back(i);
+            };
         }
         for(auto u:m){
             for(auto v:u.second){
@@ -107,4 +142,11 @@ std::vector<int> applyBarycentricHeuristic(BipartiteGraph *graph){
         }
     }
     return order;
+}
+
+std::vector<int> getRandomOrder(BipartiteGraph* graph) {
+    Random& random = Random::getInstance();
+    std::vector<int> v = generateVector(graph->getN1());
+    random.shuffle(v);
+    return v;
 }
