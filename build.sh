@@ -53,7 +53,7 @@ if [ "$bary_flag" == "1" ]; then
     build_command+=" -DBARY_MODE=ON"
     # cmake -DCMAKE_BUILD_TYPE=BaryMode ..
 elif [ "$median_flag" == "1" ]; then
-    echo "MEDIUM MODE enabled"
+    echo "MEDIAN MODE enabled"
     build_command+=" -DMEDIAN_MODE=ON"
     # cmake -DCMAKE_BUILD_TYPE=MediumMode ..
 else

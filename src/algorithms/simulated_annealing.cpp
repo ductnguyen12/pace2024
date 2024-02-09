@@ -11,9 +11,10 @@
 SimulatedAnnealing::SimulatedAnnealing() {}
 
 
-std::vector<int> SimulatedAnnealing::pickRandomNeighbor(std::vector<int> &v, StoppingCondition* stoppingCondition) {
+std::pair<std::vector<int>, int> SimulatedAnnealing::pickRandomNeighbor(BipartiteGraph* graph, std::pair<std::vector<int>, int> &record, StoppingCondition* stoppingCondition) {
     Random& random = Random::getInstance();
-    int n1 = v.size();
+    std::vector<int>& order = record.first;
+    int n1 = order.size();
     double coef = 1;
 #if defined(JUMP)
 #pragma message("Jump")
@@ -33,27 +34,9 @@ std::vector<int> SimulatedAnnealing::pickRandomNeighbor(std::vector<int> &v, Sto
         if(newIndex < 0) newIndex = 0;
         if(newIndex > n1-1) newIndex = n1-1;
     }
-    std::vector<int>ret;
-    if(newIndex > oldIndex){
-        for(int i=0;i<=newIndex;++i){
-            if(i==oldIndex) continue;
-            ret.push_back(v[i]);
-        }
-        ret.push_back(v[oldIndex]);
-        for(int i=newIndex+1;i<n1;++i){
-            ret.push_back(v[i]);
-        }
-    }else{
-        for(int i=0;i<newIndex;++i){
-            ret.push_back(v[i]);
-        }
-        ret.push_back(v[oldIndex]);
-        for(int i=newIndex;i<n1;++i){
-            if(i==oldIndex) continue;
-            ret.push_back(v[i]);
-        }
-    }
-    return ret;
+    std::vector neighbor(order);
+    int newCount = record.second - shiftPartialOrder(*graph, neighbor.begin() + newIndex, neighbor.begin() + oldIndex, random.randOutcome(0.5f));
+    return std::make_pair(std::move(neighbor), newCount);
 }
 
 float SimulatedAnnealing::acceptanceProbability(int oldFitness, int curFitness, float t) {
@@ -76,29 +59,27 @@ Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph, StoppingConditi
 #if defined(BARY) || defined(JUMP)
 #pragma message("Bary or Jump")
         order = applyBarycentricHeuristic(graph);
-#elif defined(MEDIUM)
-#pragma message("Medium")
-        order = applyMediumHeuristic(graph);
+#elif defined(MEDIAN)
+#pragma message("Median")
+        order = applyMedianHeuristic(graph);
 #else 
 #pragma message("Random")
-        order = applyRandom(graph);
+        order = getRandomOrder(graph);
 #endif
         
         minCross = graph->count(order);
         solution = new std::vector(order);
-        std::pair<std::vector<int>,int> cur = std::make_pair(order,minCross);
+        std::pair<std::vector<int>,int> current = std::make_pair(order, minCross);
         while(stoppingCondition->canContinue()){
             stoppingCondition->notifyIterated();
             ++steps;
-            order = pickRandomNeighbor(cur.first, stoppingCondition);
-            int crossing = graph->count(order);
-            if(random.randOutcome(acceptanceProbability(cur.second,crossing,t))){
-                if(crossing < minCross){
-                    minCross = crossing;
-                    delete solution;
-                    solution = new std::vector(order);
+            std::pair<std::vector<int>, int> neighbor = pickRandomNeighbor(graph, current, stoppingCondition);
+            if(random.randOutcome(acceptanceProbability(current.second, neighbor.second, t))){
+                if(neighbor.second < minCross){
+                    minCross = neighbor.second;
+                    solution->assign(neighbor.first.begin(), neighbor.first.end());
                 }
-                cur = std::make_pair(order,crossing);
+                current = std::make_pair(std::move(neighbor.first), neighbor.second);
             }
             t = t / (1.0 + std::log(1.0 + steps));
         }
@@ -106,5 +87,5 @@ Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph, StoppingConditi
 #ifdef DEBUG_MODE
     std::cout << "Finished at: " << std::chrono::steady_clock::now().time_since_epoch().count() << std::endl;
 #endif
-    return {minCross,solution};
+    return {minCross, solution};
 }

@@ -30,12 +30,9 @@ const std::vector<std::vector<int>>& BipartiteGraph::getVs1() const { return vs1
 template <class Container>
 int BipartiteGraph::count(Container const& order) {
     int result = 0;
-    int i1, i2;
-    i1 = 0;
-    for (auto left = order.begin(); left != order.end(); left++, i1++) {
-        i2 = i1 + 1;
-        for (auto right = std::next(left); right != order.end(); right++, i2++) {
-            result += _count(i1, i2);
+    for (auto left = order.begin(); left != order.end(); left++) {
+        for (auto right = std::next(left); right != order.end(); right++) {
+            result += count(*left, *right);
         }
     }   
     
@@ -60,7 +57,7 @@ int BipartiteGraph::__count(std::vector<int> const& v1, std::vector<int> const& 
     return result;
 }
 
-int BipartiteGraph::_count(int i1, int i2) {
+int BipartiteGraph::count(int i1, int i2) {
     if (cache[i1][i2] == -1) cache[i1][i2] = __count(vs1[i1], vs1[i2]);
     return cache[i1][i2];
 }
@@ -74,7 +71,7 @@ const std::vector<std::vector<int>> &BipartiteGraph::computeCrossingMatrix() {
                 matrix->at(i).push_back(0);
                 continue;
             }
-            matrix->at(i).push_back(_count(i, j));
+            matrix->at(i).push_back(count(i, j));
         }
     }
     return *matrix;
@@ -84,7 +81,7 @@ long long BipartiteGraph::calculateMinimumCrossingLowerBound() {
     long long sum = 0;
     for (int i = 0, n1 = n0; i < n1; i++) {
         for (int j = i + 1; j < n1; j++) {
-            sum += std::min(_count(i, j), _count(j, i));
+            sum += std::min(count(i, j), count(j, i));
         }
     }
     return sum;

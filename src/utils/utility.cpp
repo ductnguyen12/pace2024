@@ -3,6 +3,7 @@
 #include <list>
 #include <iostream>
 #include <utils/random.h>
+#include <algorithm>
 #include <map>
 
 void swap(int &a, int &b)
@@ -65,13 +66,35 @@ int constraint(int value, int left, int right) {
     return min(max(value, left), right);
 }
 
-template <class Container>
-int fastReplace(BipartiteGraph& graph, std::pair<int, int>& range, Container oldOrder, Container newOrder, int lastCount) {
-    return lastCount - graph.count(extract(oldOrder, range)) + graph.count(extract(newOrder, range));
+template <typename Container>
+int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, Container oldOrder, Container newOrder) {
+    if (oldOrder.size() != newOrder.size()) throw new std::invalid_argument("Old order and new order must have the same length");
+    return graph.count(extract(oldOrder, range)) - graph.count(extract(newOrder, range));
 }
-template int fastReplace(BipartiteGraph& graph, std::pair<int, int>& range, std::vector<int> oldOrder, std::vector<int> newOrder, int lastCount);
-template int fastReplace(BipartiteGraph& graph, std::pair<int, int>& range, std::list<int> oldOrder, std::list<int> newOrder, int lastCount);
+template int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, std::vector<int> oldOrder, std::vector<int> newOrder);
+template int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, std::list<int> oldOrder, std::list<int> newOrder);
 
+int shiftPartialOrder(BipartiteGraph& graph, std::vector<int>::iterator begin, std::vector<int>::iterator end, bool right) {
+    if (begin == end) {
+        return 0;
+    }
+    else if (begin > end) {
+        std::vector<int>::iterator temp = begin;
+        begin = end;
+        end = temp;
+        right ^= true;
+    }
+    int result = 0;
+    if (right) {
+        for (std::vector<int>::iterator it = begin; it < end; it++) result += graph.count(*it, *end) - graph.count(*end, *it);
+        std::rotate(begin, end, end + 1);
+    }
+    else {
+        for (std::vector<int>::iterator it = std::next(begin); it <= end; it++) result += graph.count(*begin, *it)  - graph.count(*it, *begin);
+        std::rotate(begin, begin + 1, end + 1);
+    }
+    return result;    
+}
 
 std::vector<int> applyMedianHeuristic(BipartiteGraph *graph){
     std::vector<int>order;
@@ -121,7 +144,7 @@ std::vector<int> applyBarycentricHeuristic(BipartiteGraph *graph){
     return order;
 }
 
-std::vector<int> applyRandom(BipartiteGraph* graph) {
+std::vector<int> getRandomOrder(BipartiteGraph* graph) {
     Random& random = Random::getInstance();
     std::vector<int> v = generateVector(graph->getN1());
     random.shuffle(v);

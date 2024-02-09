@@ -8,6 +8,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_FLAGS_DEBUG "-g -DDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
 
+set(BARY_MODE OFF)
+set(JUMP_MODE OFF)
+set(NO_ILP OFF)
+set(RANDOM_MODE OFF)
+set(MEDIAN_MODE OFF)
+
 
 # Include directories
 include_directories(include/)
@@ -22,21 +28,21 @@ if(CMAKE_BUILD_TYPE MATCHES "GenerateMode")
 else()
     # Set sources
     if (NO_ILP)
-    set(SOURCES
-        src/main.cpp
-        src/problems/problem.cpp
-        src/graph/bipartite_graph.cpp
-        src/algorithms/brute_force.cpp
-        src/algorithms/genetic_algorithm.cpp
-        src/algorithms/random_search.cpp
-        src/algorithms/simulated_annealing.cpp
-        src/utils/utility.cpp
-        src/utils/argument.cpp
-        src/utils/random.cpp
-        src/stopping_conditions/time_stopping_condition.cpp
-        src/stopping_conditions/iteration_stopping_condition.cpp
-        src/stopping_conditions/combined_stopping_condition.cpp
-    )
+        set(SOURCES
+            src/main.cpp
+            src/problems/problem.cpp
+            src/graph/bipartite_graph.cpp
+            src/algorithms/brute_force.cpp
+            src/algorithms/genetic_algorithm.cpp
+            src/algorithms/random_search.cpp
+            src/algorithms/simulated_annealing.cpp
+            src/utils/utility.cpp
+            src/utils/argument.cpp
+            src/utils/random.cpp
+            src/stopping_conditions/time_stopping_condition.cpp
+            src/stopping_conditions/iteration_stopping_condition.cpp
+            src/stopping_conditions/combined_stopping_condition.cpp
+        )
     else()
         set(SOURCES
             src/main.cpp
@@ -59,18 +65,23 @@ else()
 
     # Set DEBUG_MODE definition
     if(DEBUG_MODE)
+        message("DEBUG_MODE=On")
         add_compile_definitions(DEBUG_MODE)
     endif()
     if(BARY_MODE)
+        message("BARY_MODE=On")
         add_compile_definitions(BARY)
     endif()
     if(JUMP_MODE)
+        message("JUMP_MODE=On")
         add_compile_definitions(JUMP)
     endif()
-    if(MEDIUM_MODE)
-        add_compile_definitions(MEDIUM)
+    if(MEDIAN_MODE)
+        message("MEDIAN_MODE=On")
+        add_compile_definitions(MEDIAN)
     endif()
     if (RANDOM_MODE)
+        message("RANDOM_MODE=On")
         add_compile_definitions(RANDOM)
     endif()
 
