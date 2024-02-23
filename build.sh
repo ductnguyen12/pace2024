@@ -1,7 +1,6 @@
 mkdir -p build
 cd build
 
-debug_flag=0
 generate_flag=0
 bary_flag=0
 median_flag=0
@@ -11,9 +10,6 @@ gurubi_lib="/opt/gurobi1100/linux64/"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        -d)
-            debug_flag=1
-            ;;
         -g)
             generate_flag=1
             ;;
@@ -38,11 +34,6 @@ while [[ $# -gt 0 ]]; do
 done
 
 build_command="cmake -DGUROBI_DIR=$gurubi_lib"
-if [ "$debug_flag" == "1" ]; then
-    echo "DEBUG MODE enabled"
-    build_command+=" -DDEBUG_MODE=ON"
-    # cmake -DGUROBI_DIR=$gurubi_lib -DCMAKE_BUILD_TYPE=DebugMode ..
-fi
 if [ "$generate_flag" == "1" ]; then
     echo "GENERATE MODE enabled"
     build_command+=" -DGENERATE_MODE=ON"
