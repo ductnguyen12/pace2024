@@ -8,17 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_FLAGS_DEBUG "-g -DDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
 
-set(BARY_MODE OFF)
-set(JUMP_MODE OFF)
-set(NO_ILP OFF)
-set(RANDOM_MODE OFF)
-set(MEDIAN_MODE OFF)
-
 
 # Include directories
 include_directories(include/)
 
-message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 # Set sources
 if (NO_ILP)
     set(SOURCES
