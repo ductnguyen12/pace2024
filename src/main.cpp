@@ -51,4 +51,4 @@ int main(int argc, char** args) {
     delete problem;
     delete algorithm;
     return 1;
-}
+} 
