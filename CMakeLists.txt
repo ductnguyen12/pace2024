@@ -11,6 +11,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
 
 # Include directories
 include_directories(include/)
+include_directories(external/)
 
 # Set sources
 if (NO_ILP)
@@ -93,6 +94,7 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/p-ranav/argparse.git
 )
 FetchContent_MakeAvailable(argparse)
+
 if(NO_ILP)
     message("Skip ILP Libraries")
     target_link_libraries(mincrossing
