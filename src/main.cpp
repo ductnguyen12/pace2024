@@ -10,12 +10,18 @@
 #include <vector>
 #include <iomanip>
 #include <numeric>
+#include <chrono>
+
 
 int main(int argc, char** args) { 
     auto argument = ProgramArgument::getInstance("mincrossing");
     argument->parseArguments(argc, args);
     Parser parser;
+    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
     Problem* problem = parser.parseProblem(argument->getFile());
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    std::chrono::milliseconds ellapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    std::cout << "Reading time: " << ellapsed.count() << "ms\n";
     if (argument->getLowerBound()) {
         BipartiteGraph& graph = problem->getGraph();
         std::cout << "Lower bound: " << graph.calculateMinimumCrossingLowerBound() << std::endl;
