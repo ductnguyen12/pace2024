@@ -19,7 +19,8 @@ int main(int argc, char** args) {
     StoppingCondition* stoppingCondition = argument->getStoppingCondition();
     Algorithm *algorithm = argument->getAlgorithm();
     std::vector<int> record;
-    int sum=0, min=-1, max=-1;
+    long long min=-1, max=-1;
+    double sum = 0;
     for (int repetition = argument->getRepetition(); repetition > 0; repetition--) {
         if (problem != nullptr && algorithm != nullptr) {
             Solution solution = problem->findSolution(algorithm, stoppingCondition);
@@ -44,7 +45,7 @@ int main(int argc, char** args) {
     }
     std::cout << result << std::endl;
     std::cout << "Max: " << max << std::endl;
-    std::cout << "Average: " << std::fixed << std::setprecision(2) << (double) sum / record.size() << std::endl;
+    std::cout << "Average: " << std::fixed << std::setprecision(2) << sum / record.size() << std::endl;
     std::cout << "Min: " << min << std::endl;
     BipartiteGraph& graph = problem->getGraph();
     std::cout << "Lower bound: " << graph.calculateMinimumCrossingLowerBound() << std::endl;

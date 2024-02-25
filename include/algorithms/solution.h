@@ -8,7 +8,7 @@
  * and its corresponding ordered list of vertices.
 */
 struct Solution {
-    int minCrossing;
+    long long minCrossing;
     std::vector<int>* order;
     ~Solution() {
         delete order;

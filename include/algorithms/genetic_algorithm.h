@@ -11,7 +11,7 @@ private:
     /**
      * @brief Mutate an order of elements and return the affected range.
     */
-    static int mutate(BipartiteGraph *graph, std::vector<int>& order);
+    static long long mutate(BipartiteGraph *graph, std::vector<int>& order);
 
 public:
     GeneticAlgorithm(int populationSize=50, double mutationRatio=0.1);

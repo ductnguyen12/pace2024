@@ -11,7 +11,7 @@
 SimulatedAnnealing::SimulatedAnnealing() {}
 
 
-std::pair<std::vector<int>, int> SimulatedAnnealing::pickRandomNeighbor(BipartiteGraph* graph, std::pair<std::vector<int>, int> &record, StoppingCondition* stoppingCondition) {
+std::pair<std::vector<int>, long long> SimulatedAnnealing::pickRandomNeighbor(BipartiteGraph* graph, std::pair<std::vector<int>, long long> &record, StoppingCondition* stoppingCondition) {
     Random& random = Random::getInstance();
     std::vector<int>& order = record.first;
     int n1 = order.size();
@@ -35,11 +35,11 @@ std::pair<std::vector<int>, int> SimulatedAnnealing::pickRandomNeighbor(Bipartit
         if(newIndex > n1-1) newIndex = n1-1;
     }
     std::vector neighbor(order);
-    int newCount = record.second - shiftPartialOrder(*graph, neighbor.begin() + newIndex, neighbor.begin() + oldIndex, random.randOutcome(0.5f));
+    long long newCount = record.second - shiftPartialOrder(*graph, neighbor.begin() + newIndex, neighbor.begin() + oldIndex, random.randOutcome(0.5f));
     return std::make_pair(std::move(neighbor), newCount);
 }
 
-float SimulatedAnnealing::acceptanceProbability(int oldFitness, int curFitness, float t) {
+float SimulatedAnnealing::acceptanceProbability(long long oldFitness, long long curFitness, float t) {
     if(curFitness < oldFitness){
         return 1.0;
     }
@@ -52,7 +52,7 @@ Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph, StoppingConditi
     stoppingCondition->notifyStarted();
     std::vector<int>order;
     std::vector<int>* solution= nullptr;
-    int minCross = -1;
+    long long minCross = -1;
     int steps = 0;
     double t=0.01;
     if(graph != nullptr) {
@@ -69,11 +69,11 @@ Solution SimulatedAnnealing::findSolution(BipartiteGraph *graph, StoppingConditi
         
         minCross = graph->count(order);
         solution = new std::vector(order);
-        std::pair<std::vector<int>,int> current = std::make_pair(order, minCross);
+        std::pair<std::vector<int>, long long> current = std::make_pair(order, minCross);
         while(stoppingCondition->canContinue()){
             stoppingCondition->notifyIterated();
             ++steps;
-            std::pair<std::vector<int>, int> neighbor = pickRandomNeighbor(graph, current, stoppingCondition);
+            std::pair<std::vector<int>, long long> neighbor = pickRandomNeighbor(graph, current, stoppingCondition);
             if(random.randOutcome(acceptanceProbability(current.second, neighbor.second, t))){
                 if(neighbor.second < minCross){
                     minCross = neighbor.second;

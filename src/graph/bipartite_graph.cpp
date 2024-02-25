@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iostream>
 
-BipartiteGraph::BipartiteGraph(int n0, int n1, const std::vector<std::vector<int>>& vs1) : n0(n0), n1(n1), cache(n1, std::vector(n1, -1)) {
+BipartiteGraph::BipartiteGraph(int n0, int n1, const std::vector<std::vector<int>>& vs1) : n0(n0), n1(n1), cache(n1, std::vector<long long>(n1, -1)) {
     if (n1 > vs1.size()) {
         throw std::invalid_argument("There are fewer vertices from the edge list than given number of vertices (n1)");
     }
@@ -28,7 +28,7 @@ const std::vector<std::vector<int>>& BipartiteGraph::getVs1() const { return vs1
 
 
 template <class Container>
-int BipartiteGraph::count(Container const& order) {
+long long BipartiteGraph::count(Container const& order) {
     int result = 0;
     for (auto left = order.begin(); left != order.end(); left++) {
         for (auto right = std::next(left); right != order.end(); right++) {
@@ -38,10 +38,10 @@ int BipartiteGraph::count(Container const& order) {
     
     return result;
 }
-template int BipartiteGraph::count(std::vector<int> const& order); 
-template int BipartiteGraph::count(std::list<int> const& order);
+template long long BipartiteGraph::count(std::vector<int> const& order); 
+template long long BipartiteGraph::count(std::list<int> const& order);
 
-int BipartiteGraph::__count(std::vector<int> const& v1, std::vector<int> const& v2) {
+long long BipartiteGraph::__count(std::vector<int> const& v1, std::vector<int> const& v2) {
     if (v1.size() == 0 || v2.size()  == 0) {
         return 0;
     }
@@ -57,13 +57,13 @@ int BipartiteGraph::__count(std::vector<int> const& v1, std::vector<int> const& 
     return result;
 }
 
-int BipartiteGraph::count(int i1, int i2) {
+long long BipartiteGraph::count(int i1, int i2) {
     if (cache[i1][i2] == -1) cache[i1][i2] = __count(vs1[i1], vs1[i2]);
     return cache[i1][i2];
 }
 
-const std::vector<std::vector<int>> &BipartiteGraph::computeCrossingMatrix() {
-    auto* matrix = new std::vector<std::vector<int>>();
+const std::vector<std::vector<long long>> &BipartiteGraph::computeCrossingMatrix() {
+    auto* matrix = new std::vector<std::vector<long long>>();
     for (int i = 0; i < n1; i++) {
         matrix->emplace_back();
         for (int j = 0; j < n1; j++) {
