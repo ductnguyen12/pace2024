@@ -27,6 +27,10 @@ ProgramArgument *ProgramArgument::getInstance(const std::string &programName) {
 }
 
 void ProgramArgument::parseArguments(int argc, char **args) const {
+    program->add_argument("-l", "--lowerbound")
+        .default_value(false)
+        .implicit_value(true)
+        .help("find the lower bound only, will ignore other arguemnts except -f (--file)");
     program->add_argument("-f", "--file")
         .required()
         .help("input file to be read.");
@@ -103,6 +107,10 @@ int ProgramArgument::getPopulationSize() const {
 
 int ProgramArgument::getRepetition() const {
     return std::stoi(program->get<std::string>("--repetitions"));
+}
+
+bool ProgramArgument::getLowerBound() const {
+    return program->get<bool>("--lowerbound");
 }
 
 ProgramArgument::~ProgramArgument() = default;

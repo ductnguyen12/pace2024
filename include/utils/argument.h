@@ -27,7 +27,7 @@ public:
     void parseArguments(int argc, char **args) const;
 
     [[nodiscard]] std::string getFile() const;
-
+    [[nodiscard]] bool getLowerBound() const;
     [[nodiscard]] Algorithm* getAlgorithm() const;
     [[nodiscard]] int getRepetition() const;
 
