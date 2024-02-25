@@ -10,7 +10,7 @@ GeneticAlgorithm::GeneticAlgorithm(int populationSize, double mutationRatio) : p
     
 }
 
-int GeneticAlgorithm::mutate(BipartiteGraph* graph, std::vector<int>& order) {
+long long GeneticAlgorithm::mutate(BipartiteGraph* graph, std::vector<int>& order) {
     Random& random = Random::getInstance();
     int first = random.getInt(order.size());
     auto firstIter = std::next(order.begin(), first);
@@ -27,11 +27,11 @@ auto crossingComparator = [](auto const& a, auto const& b) {
 
 Solution GeneticAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition* stoppingCondition) {
     stoppingCondition->notifyStarted();
-    int minCrossing = -1;
+    long long minCrossing = -1;
     std::vector<int> *order = nullptr;
     if (graph != nullptr) {
         Random& random = Random::getInstance();
-        std::vector<std::pair<std::vector<int>, int>> population;
+        std::vector<std::pair<std::vector<int>, long long>> population;
 #if defined(BARY)
         std::vector<int> first_vector = applyBarycentricHeuristic(graph);
 #elif defined(MEDIAN)
@@ -50,10 +50,10 @@ Solution GeneticAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition
             for (int i = 0; i < populationSize && stoppingCondition->canContinue(); i++) {
                 stoppingCondition->notifyIterated();
                 std::vector<int>& order = population[i].first;
-                int& count = population[i].second;
+                long long& count = population[i].second;
                 if (random.randOutcome(mutationRatio)) {
                     std::vector<int> mutant(order);
-                    int delta = mutate(graph, mutant);
+                    long long delta = mutate(graph, mutant);
                     population.push_back(std::make_pair(std::move(mutant), count - delta));
                 }
             }

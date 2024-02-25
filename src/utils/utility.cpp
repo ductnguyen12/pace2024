@@ -74,7 +74,7 @@ int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, Container oldO
 template int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, std::vector<int> oldOrder, std::vector<int> newOrder);
 template int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, std::list<int> oldOrder, std::list<int> newOrder);
 
-int shiftPartialOrder(BipartiteGraph& graph, std::vector<int>::iterator begin, std::vector<int>::iterator end, bool right) {
+long long shiftPartialOrder(BipartiteGraph& graph, std::vector<int>::iterator begin, std::vector<int>::iterator end, bool right) {
     if (begin == end) {
         return 0;
     }
@@ -84,7 +84,7 @@ int shiftPartialOrder(BipartiteGraph& graph, std::vector<int>::iterator begin, s
         end = temp;
         right ^= true;
     }
-    int result = 0;
+    long long result = 0;
     if (right) {
         for (std::vector<int>::iterator it = begin; it < end; it++) result += graph.count(*it, *end) - graph.count(*end, *it);
         std::rotate(begin, end, end + 1);

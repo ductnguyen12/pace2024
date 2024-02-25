@@ -21,7 +21,7 @@ Solution RandomSearchAlgorithm::findSolution(BipartiteGraph *graph, StoppingCond
     stoppingCondition->notifyStarted();
     std::vector<int>order;
     std::vector<int>* solution= nullptr;
-    int minCross = -1;
+    long long minCross = -1;
     if(graph != nullptr){
         int n1 = graph->getN1();
         order = generateRandomOrdering(n1);
@@ -30,11 +30,10 @@ Solution RandomSearchAlgorithm::findSolution(BipartiteGraph *graph, StoppingCond
         while(stoppingCondition->canContinue()){
             stoppingCondition->notifyIterated();
             order = generateRandomOrdering(n1);
-            int crossing = graph->count(order);
+            long long crossing = graph->count(order);
             if(crossing < minCross){
                 minCross = crossing;
-                delete solution;
-                solution = new std::vector<int>(order);
+                solution->assign(order.begin(), order.end());
             }
         }
 
