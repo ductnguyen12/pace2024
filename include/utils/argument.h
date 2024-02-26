@@ -26,14 +26,13 @@ public:
 
     void parseArguments(int argc, char **args) const;
 
-    [[nodiscard]] std::string getFile() const;
-    [[nodiscard]] bool getLowerBound() const;
-    [[nodiscard]] Algorithm* getAlgorithm() const;
-    [[nodiscard]] int getRepetition() const;
-
-    [[nodiscard]] StoppingCondition* getStoppingCondition() const;
-
-    [[nodiscard]] int getPopulationSize() const;
+    std::string getFile() const;
+    bool getLowerBound() const;
+    size_t getSeed() const;
+    Algorithm* getAlgorithm() const;
+    int getRepetition() const;
+    StoppingCondition* getStoppingCondition() const;
+int getPopulationSize() const;
 };
 
 #endif //ARGUMENTS_H

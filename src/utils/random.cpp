@@ -22,6 +22,7 @@ Random& Random::getInstance() {
 bool Random::setSeed(size_t seed) {
     if (Random::seed == nullptr) {
         Random::seed = new size_t(seed);
+        getInstance();
         return true;
     }
     return false;

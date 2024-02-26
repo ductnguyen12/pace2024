@@ -24,7 +24,11 @@ std::pair<std::vector<int>, long long> SimulatedAnnealing::pickRandomNeighbor(Bi
     newIndex = oldIndex = 0;
     while(newIndex == oldIndex){
         oldIndex = random.getInt(0, n1);
-        int randomJump = random.getInt(0, ceil(n1 * coef)) + 1;
+        int distance = ceil(n1 * coef);
+        int randomJump = 1;
+        if (distance != 0) {
+            randomJump += random.getInt(0, distance);
+        }
         int val = random.getInt(0,2) ;
         val == 0 ? randomJump*=-1 : randomJump*=1;
 #ifdef DEBUG_MODE
@@ -34,7 +38,7 @@ std::pair<std::vector<int>, long long> SimulatedAnnealing::pickRandomNeighbor(Bi
         if(newIndex < 0) newIndex = 0;
         if(newIndex > n1-1) newIndex = n1-1;
     }
-    std::vector neighbor(order);
+    std::vector<int> neighbor(order);
     long long newCount = record.second - shiftPartialOrder(*graph, neighbor.begin() + newIndex, neighbor.begin() + oldIndex, random.randOutcome(0.5f));
     return std::make_pair(std::move(neighbor), newCount);
 }

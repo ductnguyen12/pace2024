@@ -54,6 +54,9 @@ void ProgramArgument::parseArguments(int argc, char **args) const {
     program->add_argument("-r", "--repetitions")
         .default_value("1")
         .help("The repetitions number");
+    program->add_argument("--seed")
+        .default_value("-1")
+        .help("Specific seed for the algorithm");
 
     try {
         program->parse_args(argc, args);
@@ -111,6 +114,12 @@ int ProgramArgument::getRepetition() const {
 
 bool ProgramArgument::getLowerBound() const {
     return program->get<bool>("--lowerbound");
+}
+
+size_t ProgramArgument::getSeed() const {
+    size_t seed;
+    sscanf(program->get<std::string>("--seed").c_str(), "%zu", &seed);
+    return seed;
 }
 
 ProgramArgument::~ProgramArgument() = default;
