@@ -11,10 +11,10 @@ private:
     /**
      * @brief Mutate an order of elements and return the affected range.
     */
-    static long long mutate(BipartiteGraph *graph, std::vector<int>& order);
+    static unsigned long long mutate(BipartiteGraph *graph, std::vector<int>& order);
 
 public:
-    GeneticAlgorithm(int populationSize=50, double mutationRatio=0.1);
+    GeneticAlgorithm(int populationSize=10, double mutationRatio=0.1);
 
     Solution findSolution(BipartiteGraph *graph, StoppingCondition* stoppingCondition) override;
 };

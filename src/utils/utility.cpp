@@ -67,14 +67,14 @@ int constraint(int value, int left, int right) {
 }
 
 template <typename Container>
-int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, Container oldOrder, Container newOrder) {
+unsigned long long countDelta(BipartiteGraph& graph, std::pair<int, int>& range, Container oldOrder, Container newOrder) {
     if (oldOrder.size() != newOrder.size()) throw new std::invalid_argument("Old order and new order must have the same length");
     return graph.count(extract(oldOrder, range)) - graph.count(extract(newOrder, range));
 }
-template int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, std::vector<int> oldOrder, std::vector<int> newOrder);
-template int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, std::list<int> oldOrder, std::list<int> newOrder);
+template unsigned long long countDelta(BipartiteGraph& graph, std::pair<int, int>& range, std::vector<int> oldOrder, std::vector<int> newOrder);
+template unsigned long long countDelta(BipartiteGraph& graph, std::pair<int, int>& range, std::list<int> oldOrder, std::list<int> newOrder);
 
-long long shiftPartialOrder(BipartiteGraph& graph, std::vector<int>::iterator begin, std::vector<int>::iterator end, bool right) {
+unsigned long long shiftPartialOrder(BipartiteGraph& graph, std::vector<int>::iterator begin, std::vector<int>::iterator end, bool right) {
     if (begin == end) {
         return 0;
     }
@@ -84,7 +84,7 @@ long long shiftPartialOrder(BipartiteGraph& graph, std::vector<int>::iterator be
         end = temp;
         right ^= true;
     }
-    long long result = 0;
+    unsigned long long result = 0;
     if (right) {
         for (std::vector<int>::iterator it = begin; it < end; it++) result += graph.count(*it, *end) - graph.count(*end, *it);
         std::rotate(begin, end, end + 1);

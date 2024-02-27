@@ -4,6 +4,7 @@
 #include <vector>
 #include <list>
 #include <iterator>
+#include <unordered_map>
 
 class BipartiteGraph {
 private:
@@ -21,8 +22,9 @@ private:
      * @note @v1 and @v2 must be sorted
      * @return the number of crossing edges
     */
-    static long long __count(std::vector<int> const& v1, std::vector<int> const& v2);
-    std::vector<std::vector<long long>> cache;
+    static unsigned long long __count(std::vector<int> const& v1, std::vector<int> const& v2);
+    std::unordered_map<unsigned long long, unsigned long long> cache;
+    
 public:
     BipartiteGraph(int n0, int n1, const std::vector<std::vector<int>>& vs1);
     ~BipartiteGraph();
@@ -40,10 +42,10 @@ public:
      * @return the number of crossing edges
     */
     template <class Container>
-    long long count(Container const& order);
-    long long count(int i1, int i2);
-    const std::vector<std::vector<long long>>& computeCrossingMatrix();
-    long long calculateMinimumCrossingLowerBound();
+    unsigned long long count(Container const& order);
+    unsigned long long count(int i1, int i2);
+    std::vector<std::vector<unsigned long long>> computeCrossingMatrix();
+    unsigned long long calculateMinimumCrossingLowerBound();
 };
 
 #endif

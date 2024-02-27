@@ -7,6 +7,7 @@
 #include <utils/utility.h>
 #include <utils/random.h>
 #include <chrono>
+#include <limits.h>
 
  std::vector<int> RandomSearchAlgorithm::generateRandomOrdering(int n1){
     Random& random = Random::getInstance();
@@ -21,7 +22,7 @@ Solution RandomSearchAlgorithm::findSolution(BipartiteGraph *graph, StoppingCond
     stoppingCondition->notifyStarted();
     std::vector<int>order;
     std::vector<int>* solution= nullptr;
-    long long minCross = -1;
+    unsigned long long minCross = UINT_MAX;
     if(graph != nullptr){
         int n1 = graph->getN1();
         order = generateRandomOrdering(n1);
@@ -30,7 +31,7 @@ Solution RandomSearchAlgorithm::findSolution(BipartiteGraph *graph, StoppingCond
         while(stoppingCondition->canContinue()){
             stoppingCondition->notifyIterated();
             order = generateRandomOrdering(n1);
-            long long crossing = graph->count(order);
+            unsigned long long crossing = graph->count(order);
             if(crossing < minCross){
                 minCross = crossing;
                 solution->assign(order.begin(), order.end());
@@ -38,7 +39,5 @@ Solution RandomSearchAlgorithm::findSolution(BipartiteGraph *graph, StoppingCond
         }
 
     }
-
-    std::cout << "Started at: " << std::chrono::steady_clock::now().time_since_epoch().count() << std::endl;
-    return {minCross,solution};
+    return {minCross, solution};
 }

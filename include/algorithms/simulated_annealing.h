@@ -8,8 +8,8 @@
 class SimulatedAnnealing : public Algorithm {
 private:
     static std::vector<int> generateRandomStart(int n1);
-    static std::pair<std::vector<int>, long long> pickRandomNeighbor(BipartiteGraph* graph, std::pair<std::vector<int>, long long> &record, StoppingCondition* stoppingCondition);
-    static float acceptanceProbability(long long oldFitness,long long curFitness,float t);
+    static std::pair<std::vector<int>, unsigned long long> pickRandomNeighbor(BipartiteGraph* graph, std::pair<std::vector<int>, unsigned long long> &record, StoppingCondition* stoppingCondition);
+    static float acceptanceProbability(unsigned long long oldFitness,unsigned long long curFitness,float t);
 public:
     SimulatedAnnealing();
 

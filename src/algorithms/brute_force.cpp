@@ -2,6 +2,7 @@
 #include <utils/utility.h>
 #include <algorithm>
 #include <iostream> 
+#include <limits.h>
 
 bool BruteForceAlgorithm::next(std::vector<int> &v) {    
     for (int idx = v.size() - 2; idx >= 0; idx--) {
@@ -25,7 +26,7 @@ Solution BruteForceAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondit
     stoppingCondition->notifyStarted();
     std::vector<int> order;
     std::vector<int> *solution = nullptr;
-    long long minCrossing = -1;
+    unsigned long long minCrossing = UINT_MAX;
     
     if (graph != nullptr) {
         const std::vector<std::vector<int>>& vs = graph->getVs1();

@@ -84,7 +84,7 @@ Solution ILPAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition* st
     // Optimize model
     model.optimize();
 
-    int minCross = int(model.get(GRB_DoubleAttr_ObjVal));
+    unsigned long long minCross = (unsigned long long) model.get(GRB_DoubleAttr_ObjVal);
     auto *order = new std::vector<int>();
     for (int i = 0; i < graph->getN1(); i++) {
         order->push_back(i);

@@ -3,14 +3,13 @@
 #include <utils/random.h>
 #include <algorithm>
 #include <iostream>
-#ifdef DEBUG_MODE 
-#endif
+#include <limits.h>
 
 GeneticAlgorithm::GeneticAlgorithm(int populationSize, double mutationRatio) : populationSize(populationSize), mutationRatio(mutationRatio){
     
 }
 
-long long GeneticAlgorithm::mutate(BipartiteGraph* graph, std::vector<int>& order) {
+unsigned long long GeneticAlgorithm::mutate(BipartiteGraph* graph, std::vector<int>& order) {
     Random& random = Random::getInstance();
     int first = random.getInt(order.size());
     auto firstIter = std::next(order.begin(), first);
@@ -27,11 +26,11 @@ auto crossingComparator = [](auto const& a, auto const& b) {
 
 Solution GeneticAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition* stoppingCondition) {
     stoppingCondition->notifyStarted();
-    long long minCrossing = -1;
+    unsigned long long minCrossing = UINT_MAX;
     std::vector<int> *order = nullptr;
     if (graph != nullptr) {
         Random& random = Random::getInstance();
-        std::vector<std::pair<std::vector<int>, long long>> population;
+        std::vector<std::pair<std::vector<int>, unsigned long long>> population;
 #if defined(BARY)
         std::vector<int> first_vector = applyBarycentricHeuristic(graph);
 #elif defined(MEDIAN)
@@ -50,10 +49,10 @@ Solution GeneticAlgorithm::findSolution(BipartiteGraph *graph, StoppingCondition
             for (int i = 0; i < populationSize && stoppingCondition->canContinue(); i++) {
                 stoppingCondition->notifyIterated();
                 std::vector<int>& order = population[i].first;
-                long long& count = population[i].second;
+                unsigned long long& count = population[i].second;
                 if (random.randOutcome(mutationRatio)) {
                     std::vector<int> mutant(order);
-                    long long delta = mutate(graph, mutant);
+                    unsigned long long delta = mutate(graph, mutant);
                     population.push_back(std::make_pair(std::move(mutant), count - delta));
                 }
             }

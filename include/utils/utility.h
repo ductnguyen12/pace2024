@@ -27,7 +27,7 @@ int constraint(int value, int left, int right);
 template <typename Container>
 int countDelta(BipartiteGraph& graph, std::pair<int, int>& range, Container oldOrder, Container newOrder);
 
-long long shiftPartialOrder(BipartiteGraph& graph, std::vector<int>::iterator begin, std::vector<int>::iterator end, bool right);
+unsigned long long shiftPartialOrder(BipartiteGraph& graph, std::vector<int>::iterator begin, std::vector<int>::iterator end, bool right);
 
 std::vector<int> applyMedianHeuristic(BipartiteGraph *graph);
 std::vector<int> applyBarycentricHeuristic(BipartiteGraph *graph);

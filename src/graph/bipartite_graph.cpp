@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iostream>
 
-BipartiteGraph::BipartiteGraph(int n0, int n1, const std::vector<std::vector<int>>& vs1) : n0(n0), n1(n1), cache(n1, std::vector<long long>(n1, -1)) {
+BipartiteGraph::BipartiteGraph(int n0, int n1, const std::vector<std::vector<int>>& vs1) : n0(n0), n1(n1) {
     if (n1 > vs1.size()) {
         throw std::invalid_argument("There are fewer vertices from the edge list than given number of vertices (n1)");
     }
@@ -18,7 +18,6 @@ BipartiteGraph::BipartiteGraph(int n0, int n1, const std::vector<std::vector<int
     }
 }
 BipartiteGraph::~BipartiteGraph() { 
-    
 }
 
 int BipartiteGraph::getN0() const { return n0; }
@@ -28,8 +27,8 @@ const std::vector<std::vector<int>>& BipartiteGraph::getVs1() const { return vs1
 
 
 template <class Container>
-long long BipartiteGraph::count(Container const& order) {
-    int result = 0;
+unsigned long long BipartiteGraph::count(Container const& order) {
+    unsigned long long result = 0;
     for (auto left = order.begin(); left != order.end(); left++) {
         for (auto right = std::next(left); right != order.end(); right++) {
             result += count(*left, *right);
@@ -38,47 +37,46 @@ long long BipartiteGraph::count(Container const& order) {
     
     return result;
 }
-template long long BipartiteGraph::count(std::vector<int> const& order); 
-template long long BipartiteGraph::count(std::list<int> const& order);
+template unsigned long long BipartiteGraph::count(std::vector<int> const& order); 
+template unsigned long long BipartiteGraph::count(std::list<int> const& order);
 
-long long BipartiteGraph::__count(std::vector<int> const& v1, std::vector<int> const& v2) {
+unsigned long long BipartiteGraph::__count(std::vector<int> const& v1, std::vector<int> const& v2) {
     if (v1.size() == 0 || v2.size()  == 0) {
         return 0;
     }
-    int a = 0, b = v1.size() - 1, c = 0, d = v2.size() - 1, result = 0;
+    int a = 0, b = v1.size() - 1, c = 0, d = v2.size() - 1;
     while (a < b && v1[a] <= v2[0]) a++;
     while (d > c && v2[d] >= v1[v1.size() - 1]) d--;
-    for (int i = a; i <= b; i++) {
-        for (int j = c; j <= d; j++) {
-            if (v2[j] < v1[i]) result += 1;
-            else break;
+    unsigned long long result = 0, gap = 1;
+    for (int i = a, j = c; i <= b; i++) {
+        while (v2[j] < v1[i] && j <= d) {
+            j++;
+            gap++;
         }
+        result += gap;
     }
     return result;
 }
 
-long long BipartiteGraph::count(int i1, int i2) {
-    if (cache[i1][i2] == -1) cache[i1][i2] = __count(vs1[i1], vs1[i2]);
-    return cache[i1][i2];
+unsigned long long BipartiteGraph::count(int i1, int i2) {
+    unsigned long long hashed = (unsigned long long) n1 * i1 + i2;
+    if (!cache.count(hashed)) cache[hashed] = __count(vs1[i1], vs1[i2]);
+    return cache[hashed];
 }
 
-const std::vector<std::vector<long long>> &BipartiteGraph::computeCrossingMatrix() {
-    auto* matrix = new std::vector<std::vector<long long>>();
+std::vector<std::vector<unsigned long long>> BipartiteGraph::computeCrossingMatrix() {
+    std::vector<std::vector<unsigned long long>> matrix;
+    matrix.resize(n1);
     for (int i = 0; i < n1; i++) {
-        matrix->emplace_back();
         for (int j = 0; j < n1; j++) {
-            if (i == j) {
-                matrix->at(i).push_back(0);
-                continue;
-            }
-            matrix->at(i).push_back(count(i, j));
+            matrix[i].push_back(i == j ? 0 : count(i, j));
         }
     }
-    return *matrix;
+    return matrix;
 }
 
-long long BipartiteGraph::calculateMinimumCrossingLowerBound() {
-    long long sum = 0;
+unsigned long long BipartiteGraph::calculateMinimumCrossingLowerBound() {
+    unsigned long long sum = 0;
     for (int i = 0, n1 = n0; i < n1; i++) {
         for (int j = i + 1; j < n1; j++) {
             sum += std::min(count(i, j), count(j, i));

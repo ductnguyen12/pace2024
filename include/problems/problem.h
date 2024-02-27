@@ -5,6 +5,7 @@
 #include <algorithms/algorithm.h>
 #include <algorithms/solution.h>
 #include <initializer_list>
+#include <fstream>
 #include <string>
 #include <list>
 #include <memory>
@@ -12,6 +13,7 @@
 class Problem {
 private:
     BipartiteGraph graph;
+    std::ifstream *file;
     int *cw, *ord;
 public:
     BipartiteGraph& getGraph();
@@ -31,13 +33,15 @@ public:
 class Parser {
 private:
     std::list<Token*> tokens;
+    std::ifstream *file = nullptr;
 public:
     Parser();
 
     void tokenize(std::string const& filepath);
-    std::shared_ptr<Token> consume(Token::Type type, std::string const value);
+    std::shared_ptr<Token> consume(Token::Type type, std::string const& value);
     std::shared_ptr<Token> consume(Token::Type type);
     std::shared_ptr<Token> consume();
+    bool fetch();
     void parseComment(std::string& comment);
     void parseDescription(int& n0, int& n1, int& m, int*& cw, int*& ord);
     void parseCutWidth(int const& n0, int const& n1, int const& m, int*& cw, int*& ord);

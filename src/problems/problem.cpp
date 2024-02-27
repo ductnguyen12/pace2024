@@ -1,10 +1,10 @@
 #include <problems/problem.h>
 #include <iostream>
-#include <fstream>
 #include <sstream>
 #include <cctype>
 #include <algorithm>
 #include <stdexcept>
+#include <utils/simple_timer.h>
 
 #ifdef DEBUG_MODE
 
@@ -59,12 +59,19 @@ Solution Problem::findSolution(Algorithm* algorithm, StoppingCondition* stopping
 }
 
 void Parser::tokenize(std::string const& filepath) {
-    std::ifstream file(filepath);
-    if (!file.is_open()) {
-        throw std::runtime_error("Tokenization error: Cannot open file.");
+    file = new std::ifstream(filepath);
+    for (Token* token : tokens) delete token;
+    tokens.clear();
+}
+bool Parser::fetch() {
+    if (file == nullptr) {
+        return false;
+    }
+    if (!file->is_open()) {
+        throw std::runtime_error("Tokenization error: File is not open.");
     }
     std::string line;
-    while (std::getline(file, line)) {
+    if (std::getline(*file, line)) {
         std::istringstream iss(line);
         std::string value;
         while (iss >> value) {
@@ -77,17 +84,18 @@ void Parser::tokenize(std::string const& filepath) {
         }
         tokens.push_back(new Token("\\n", Token::Type::NEWLINE));
     }
-    tokens.push_back(new Token(Token::Type::END_OF_FILE));
-#ifdef DEBUG_MODE
-    for (Token* token : tokens) {
-        std::cout << "(" << token->value << ", " << (int)(token->type) << ")";
+    else {
+        tokens.push_back(new Token(Token::Type::END_OF_FILE));
+        file = nullptr;
     }
-    std::cout << std::endl;
-#endif
+    return true;
 }
 
-std::shared_ptr<Token> Parser::consume(Token::Type type, std::string const value) {
-    if (tokens.size() == 0 || tokens.front()->type != type || tokens.front()->value != value) {
+std::shared_ptr<Token> Parser::consume(Token::Type type, std::string const& value) {
+    if (tokens.empty() && !fetch()) {
+        throw std::runtime_error("Cannot fetch more tokens");
+    }
+    if (tokens.empty() || tokens.front()->type != type || tokens.front()->value != value) {
         return nullptr;
     }
     Token* front = tokens.front();
@@ -95,7 +103,10 @@ std::shared_ptr<Token> Parser::consume(Token::Type type, std::string const value
     return std::shared_ptr<Token>(front);
 }
 std::shared_ptr<Token> Parser::consume(Token::Type type) {
-    if (tokens.size() == 0 || tokens.front()->type != type) {
+    if (tokens.empty() && !fetch()) {
+        throw std::runtime_error("Cannot fetch more tokens");
+    }
+    if (tokens.empty() || tokens.front()->type != type) {
         return nullptr;
     }
     Token* front = tokens.front();
@@ -103,7 +114,10 @@ std::shared_ptr<Token> Parser::consume(Token::Type type) {
     return std::shared_ptr<Token>(front);
 }
 std::shared_ptr<Token> Parser::consume() {
-    if (tokens.size() == 0) {
+    if (tokens.empty() && !fetch()) {
+        throw std::runtime_error("Cannot fetch more tokens");
+    }
+    if (tokens.empty()) {
         return nullptr;
     }
     Token* front = tokens.front();
@@ -116,6 +130,7 @@ Parser::Parser() {
 }
 
 Problem* Parser::parseProblem(std::string const& filepath) {
+    SimpleTimer timer;
     tokenize(filepath);
     std::string comment;
     int n0, n1, m;
@@ -125,10 +140,14 @@ Problem* Parser::parseProblem(std::string const& filepath) {
     parseDescription(n0, n1, m, cw, ord);
     std::vector<std::vector<int>> v1;
     parseConnection(n0, n1, m, v1);
-    if (consume(Token::Type::END_OF_FILE) == nullptr || tokens.size() != 0) {
+    if (consume(Token::Type::END_OF_FILE) == nullptr || !tokens.empty()) {
         throw std::runtime_error("Parsing error: Expected end of file.");
     }
-    return new Problem(n0, n1, v1, cw, ord);
+    std::cout << "Reading time: " << timer.count() << "\n";
+    timer.start();
+    Problem* problem = new Problem(n0, n1, v1, cw, ord);
+    std::cout << "Preparing time: " << timer.count() << "\n";
+    return problem;
 }
 
 void Parser::parseComment(std::string& comment) {

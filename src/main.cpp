@@ -10,24 +10,20 @@
 #include <vector>
 #include <iomanip>
 #include <numeric>
-#include <chrono>
+#include <utils/simple_timer.h>
 
 
 int main(int argc, char** args) { 
     auto argument = ProgramArgument::getInstance("mincrossing");
     argument->parseArguments(argc, args);
     Parser parser;
-    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
     Problem* problem = parser.parseProblem(argument->getFile());
-    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-    std::chrono::milliseconds ellapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     size_t seed = argument->getSeed();
     if (seed != -1) {
         Random::setSeed(seed);
     }
     seed = Random::getSeed();
     std::cout << "Current seed: " << seed << "\n";
-    std::cout << "Reading time: " << ellapsed.count() << "ms\n";
     if (argument->getLowerBound()) {
         BipartiteGraph& graph = problem->getGraph();
         std::cout << "Lower bound: " << graph.calculateMinimumCrossingLowerBound() << std::endl;
@@ -41,11 +37,9 @@ int main(int argc, char** args) {
         for (int repetition = argument->getRepetition(); repetition > 0; repetition--) {
             if (problem != nullptr && algorithm != nullptr) {
                 std::cout << "Repetition: " << record.size();
-                start = std::chrono::steady_clock::now();
+                SimpleTimer timer;
                 Solution solution = problem->findSolution(algorithm, stoppingCondition);
-                end = std::chrono::steady_clock::now();
-                ellapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-                std::cout << "(" << ellapsed.count() << "ms)\n";
+                std::cout << "(" << timer.count() << "ms)\n";
                 sum += solution.minCrossing;
                 if (min == -1 || solution.minCrossing < min) min = solution.minCrossing;
                 if (max == -1 || solution.minCrossing > max) max = solution.minCrossing;
