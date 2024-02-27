@@ -46,6 +46,7 @@ public:
     unsigned long long count(int i1, int i2);
     std::vector<std::vector<unsigned long long>> computeCrossingMatrix();
     unsigned long long calculateMinimumCrossingLowerBound();
+    void clearCache();
 };
 
 #endif

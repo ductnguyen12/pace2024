@@ -49,6 +49,7 @@ Solution Problem::findSolution(Algorithm* algorithm, StoppingCondition* stopping
     shared = stoppingCondition;
     std::thread progressThread(printProgress);
 #endif
+    graph.clearCache();
     Solution solution = algorithm->findSolution(&graph, stoppingCondition);
 #ifdef DEBUG_MODE
     canContinue = false;

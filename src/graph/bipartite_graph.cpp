@@ -84,3 +84,7 @@ unsigned long long BipartiteGraph::calculateMinimumCrossingLowerBound() {
     }
     return sum;
 }
+
+void BipartiteGraph::clearCache() {
+    cache.clear();
+}
