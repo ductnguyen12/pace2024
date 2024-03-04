@@ -17,3 +17,10 @@ The project is not finished yet and can only be executed by using, for example,
 ```bash
 ./mincrossing -a GA -t 1234 -f "examples/OCR/tree_6_10.gr"
 ```
+
+# Experiment
+To run experiment, please refer to *experiment.ipynb*.
+Before running this ipynb file, please run the following command to pull logs files for analysis:
+```bash
+git lfs pull
+```
