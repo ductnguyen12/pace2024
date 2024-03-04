@@ -1,0 +1,21 @@
+SA-j
+3
+Graph: ${graph}
+Time: ${time}
+Reading time: 161
+Preparing time: 12
+Current seed: 1709403830528232263
+Repetition: 0(180000ms)
+Repetition: 1(180099ms)
+Repetition: 2(180078ms)
+Repetition: 3(180075ms)
+Repetition: 4(180075ms)
+Repetition: 5(180077ms)
+Repetition: 6(180079ms)
+Repetition: 7(180073ms)
+Repetition: 8(180070ms)
+Repetition: 9(180071ms)
+11961375,11961375,11961375,11961375,11961375,11961375,11961375,11961375,11961375,11961375
+Max: 11961375
+Average: 11961375.00
+Min: 11961375

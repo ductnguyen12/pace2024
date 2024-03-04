@@ -1,0 +1,21 @@
+RS-r
+6
+Graph: /scratch/nguyen/pace-2/examples/heuristic-public/95.gr
+Time: 60000
+Reading time: 21
+Preparing time: 4
+Current seed: 1709403729110122108
+Repetition: 0(60038ms)
+Repetition: 1(60332ms)
+Repetition: 2(60342ms)
+Repetition: 3(60282ms)
+Repetition: 4(60377ms)
+Repetition: 5(60369ms)
+Repetition: 6(60314ms)
+Repetition: 7(60247ms)
+Repetition: 8(60338ms)
+Repetition: 9(60366ms)
+5777210,5729350,5758302,5713382,5770425,5716376,5733242,5754671,5736918,5742238
+Max: 5777210
+Average: 5743211.40
+Min: 5713382
